@@ -27,10 +27,12 @@ public class LabsheetConstructor {
         for (Step step : cf.getSteps()) {
             String name = step.getClass().toString().substring(6);
             if (stepMap.containsKey(name)) {
+                stepMap.get(name).add(step);
 
             } else {
-                ArrayList stepList = new ArrayList<>();
-//                stepMap.put(name, stepList.add(step));  needs to ask johnny about
+                ArrayList<Step> stepList = new ArrayList<>();
+                stepList.add(step);
+                stepMap.put(name, stepList);
             }
         }
 
