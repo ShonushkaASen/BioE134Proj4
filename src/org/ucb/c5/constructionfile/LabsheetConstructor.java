@@ -1,6 +1,8 @@
 package org.ucb.c5.constructionfile;
 
+import org.ucb.c5.composition.model.Construct;
 import org.ucb.c5.constructionfile.model.ConstructionFile;
+import org.ucb.c5.constructionfile.model.Operation;
 import org.ucb.c5.constructionfile.model.Step;
 
 import java.io.File;
@@ -12,44 +14,51 @@ import java.util.List;
 
 public class LabsheetConstructor {
 
-    private HashMap<String, List<Step>> stepMap;
+    private HashMap<Operation, List<Step>> stepMap;
     private FileWriter fw;
 
     public void initiate() throws Exception {
 
     }
+    //creating multiple labSheets for the number of construction files in cfs
+    public void run(List<ConstructionFile> cfs) throws Exception {
+        //doing the same string creation operation for the number of labsheets (i.e. outputting one file for ALL operations)
+        for (ConstructionFile cf : cfs) {
+            File file = new File("Desktop/construction.doc");
+            fw = new FileWriter(file);
+            //populating a hashmap (e.g 'PCR' --> List<PCR>) that splits all steps of the same type
+            stepMap = new HashMap<>();
+            for (Step step : cf.getSteps()) {
+                Operation op = step.getOperation();
+                if (stepMap.containsKey(op)) {
+                    stepMap.get(op).add(step);
 
-    public void run(ConstructionFile cf) throws Exception {
-        File file = new File("Desktop/construction.doc");
-        fw = new FileWriter(file);
-
-        stepMap = new HashMap<>();
-        for (Step step : cf.getSteps()) {
-            String name = step.getClass().toString().substring(6);
-            if (stepMap.containsKey(name)) {
-                stepMap.get(name).add(step);
-
-            } else {
-                ArrayList<Step> stepList = new ArrayList<>();
-                stepList.add(step);
-                stepMap.put(name, stepList);
+                } else {
+                    ArrayList<Step> stepList = new ArrayList<>();
+                    stepList.add(step);
+                    stepMap.put(op, stepList);
+                }
             }
+
+
+            for (Operation op : stepMap.keySet()) {
+                List<Step> steps = stepMap.get(op);
+
+                String sheet = null;
+                switch(op) {
+                    case pcr:
+                 //       labsheet = PCRSheetGenerator.run(steps); Map<String,String>;
+
+                 //           PCR pcrstep = (PCR) step;
+                        break;
+                    case pca:
+                        break;
+                }
+                //labsheets.add(sheet);
+            }
+
+            fw.close();
         }
-
-        for (String name : stepMap.keySet()) {
-            List<Step> steps = stepMap.get(name);
-
-            if (name.equals("pcr")) {
-//                step.get().writePCRSheet(steps, fw);
-
-            } else if (name.equals("digest")) {
-
-            } else if (name.equals("pca")) {
-
-            } // add other steps
-        }
-
-        fw.close();
     }
 
     private void writePCRSheet() {
