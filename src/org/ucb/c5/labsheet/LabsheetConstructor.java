@@ -16,9 +16,11 @@ public class LabsheetConstructor {
 
     private HashMap<Operation, List<Step>> stepMap;
     private FileWriter fw;
+    private Inventory inventory;
 
     public void initiate() throws Exception {
-
+        inventory = new Inventory();
+        inventory.initiate();
     }
     //creating multiple labSheets for the number of construction files in cfs
     public void run(List<ConstructionFile> cfs) throws Exception {
@@ -47,7 +49,7 @@ public class LabsheetConstructor {
                 switch(op) {
                     case pcr:
                         //PCRSheetGenerator takes in a list of PCR steps
-                        sheet = PCRSheetGenerator.run(steps); //Map<String,String>;
+                        sheet = PCRSheetGenerator.run(steps, inventory); //Map<String,String>;
 
                  //           PCR pcrstep = (PCR) step;
                         break;
