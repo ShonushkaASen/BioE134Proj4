@@ -1,4 +1,6 @@
-public class Box{
+package org.ucb.c5.inventory;
+
+public class Box {
 	private HashMap<Name, Hashmap<Concentration, location>> everythings_loc = new HashMap<Name, Hashmap<Concentration, location>>;
 	private Location box_loc;
 	private Queue<Location> emptyspots = new Queue;

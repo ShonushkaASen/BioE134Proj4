@@ -5,7 +5,7 @@ import org.ucb.c5.constructionfile.model.Step;
 
 import java.util.*;
 
-public class PCRSheetGenerator { //, Inventory
+public class PCRSheetGenerator {
     public void initiate() throws Exception {
     }
 
@@ -24,12 +24,12 @@ public class PCRSheetGenerator { //, Inventory
         //to ensure we are not creating multiple sources for the same reagent
         HashSet<String> usedReagents = new HashSet<>();
 
-        for (Step step: steps) {
+        for (Step step : steps) {
 
             PCR pcrstep = (PCR) step;
             String oligo1 = pcrstep.getOligo1();
             usedReagents.add(oligo1);
-            String oligo2 =  pcrstep.getOligo2();
+            String oligo2 = pcrstep.getOligo2();
             usedReagents.add(oligo2);
             String template = pcrstep.getTemplate();
             usedReagents.add(template);
@@ -40,7 +40,7 @@ public class PCRSheetGenerator { //, Inventory
                     .append(oligo2).append("\t").append(template).append('\t').append(product).append("\n");
 
             //for .get(0) we're assuming that inventory.get() return a Pair<string,string> where
-                //the first string is the location and the second string would be the dilution note if needed.
+            //the first string is the location and the second string would be the dilution note if needed.
             if (!usedReagents.contains(template)) {
                 source.append(template + '\t' + inventory.get(template).get(0), +'\t' +
                         inventory.get(template).get(1) + '\n');
@@ -58,21 +58,21 @@ public class PCRSheetGenerator { //, Inventory
             String templateNote = inventory.get(template).get(1);
             String oligo1Note = inventory.get(oligo1).get(1);
             String oligo2Note = inventory.get(oligo2).get(1);
-            if (templateNote != null) {
-                notes1.append(templateNote + '\n');
+            if (!templateNote.equals("-1")) {
+                notes1.append(templateNote).append('\n');
                 //an inventory method that returns the next empty slot in the thread/box of interest
                 //Location templateLoc = inventory.getNext();
                 dilutionDests.append(template + '\t' + templateLoc);
                 inventory.put(template, templateLoc);
             }
-            if (oligo1Note != null) {
-                notes1.append(oligo1Note + '\n');
+            if (!oligo1Note.equals("-1")) {
+                notes1.append(oligo1Note).append('\n');
                 //Location oligo1Loc = inventory.getNext();
                 dilutionDests.append(oligo1 + '\t' + oligo1Loc);
                 inventory.put(oligo1, oligo1Loc);
             }
-            if (oligo2Note != null) {
-                notes1.append(oligo2Note + '\n');
+            if (!oligo2Note.equals("-1")) {
+                notes1.append(oligo2Note).append('\n');
                 //Location oligo2Loc = inventory.getNext();
                 dilutionDests.append(oligo2 + '\t' + oligo2Loc);
                 inventory.put(oligo1, oligo2Loc);
@@ -83,6 +83,4 @@ public class PCRSheetGenerator { //, Inventory
                 destination.toString() + '\n' + notes1.toString() + '\n' + dilutionDests.toString() + '\n';
         return PCRSheet;
     }
-
-
 }
