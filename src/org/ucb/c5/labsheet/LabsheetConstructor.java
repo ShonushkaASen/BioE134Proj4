@@ -77,6 +77,8 @@ public class LabsheetConstructor {
                         sheet = PlateSheetGenerator.run(steps, inventory, thread);
                         labsheet.add(sheet);
                         sheet = PickSheetGenerator.run(steps, inventory, thread);
+                        labsheet.add(sheet);
+                        sheet = MiniprepSheetGenerator.run(steps, inventory, thread);
                         break;
                     default:
                         throw new Exception(op.toString() + "Operation not found to make sheet");
