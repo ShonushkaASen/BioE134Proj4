@@ -2,8 +2,8 @@ package org.ucb.c5.constructionfile.model;
 
 public class Concentration {
     private final String molarity;
-    private final int concentration;
-    public Concentration(Integer concentration) {
+    private final double concentration;
+    public Concentration(Double concentration) {
         this.concentration = concentration;
         this.molarity = "uM";
     }
@@ -12,7 +12,7 @@ public class Concentration {
         this.molarity = "uM";
     }
 
-    public int getConcentration() {
+    public double getConcentration() {
         return concentration;
     }
 
