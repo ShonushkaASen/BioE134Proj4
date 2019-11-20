@@ -1,6 +1,6 @@
 package org.andersonlab.pipetteaid.model;
 
-import javafx.util.Pair;
+import java.util.AbstractMap.SimpleEntry;
 
 /**
  *
@@ -35,7 +35,7 @@ public class Well {
         //TODO in future:  adjust composition of the well
     }
 
-    public static Pair<Integer, Integer> parseWellLabel(String location)  throws Exception {
+    public static SimpleEntry<Integer, Integer> parseWellLabel(String location)  throws Exception {
         String A1 = location;
         if(A1.contains("/")) {
             String[] splitted = A1.split("/");
@@ -58,11 +58,11 @@ public class Well {
             col  = Integer.parseInt(numbers) - 1;
         } catch(Exception err) {}
         
-        return new Pair(row, col);
+        return new SimpleEntry(row, col);
     }
     
     
-    public static String calcWellLabel(Pair<Integer, Integer> srcWell) {
+    public static String calcWellLabel(SimpleEntry<Integer, Integer> srcWell) {
         int col = srcWell.getValue() + 1;
         int irow = 65 + srcWell.getKey();
         char row = (char) irow;

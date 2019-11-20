@@ -2,7 +2,7 @@ package org.andersonlab.pipetteaid.model;
 
 import java.util.HashMap;
 import java.util.Map;
-import javafx.util.Pair;
+import java.util.AbstractMap.*;
 
 /**
  *
@@ -11,7 +11,7 @@ import javafx.util.Pair;
 public class Deck {
 
     private final Plate[][] plates;
-    private final Map<String, Pair<Integer,Integer>> nameToPos;
+    private final Map<String, SimpleEntry<Integer,Integer>> nameToPos;
     
     public Deck() {
         DeckConfig config = DeckConfig.getInstance();
@@ -24,7 +24,7 @@ public class Deck {
             throw new Exception();
         }
         plates[row][col] = new Plate(plateName, PCRPlateConfig.getInstance());
-        nameToPos.put(plateName, new Pair(row, col));
+        nameToPos.put(plateName, new SimpleEntry(row, col));
     }
     
     public void removePlate(int row, int col) {
@@ -32,7 +32,7 @@ public class Deck {
     }
     
     public void removePlate(String plateName) {
-        Pair<Integer,Integer> pos = nameToPos.get(plateName);
+        SimpleEntry<Integer,Integer> pos = nameToPos.get(plateName);
         removePlate(pos.getKey(), pos.getValue());
     }
     
@@ -40,7 +40,7 @@ public class Deck {
         return plates[row][col];
     }
 
-    public Pair<Integer, Integer> getPlatePos(String location) {
+    public SimpleEntry<Integer, Integer> getPlatePos(String location) {
         String name = location;
         if(name.contains("/")) {
             String[] splitted = name.split("/");
@@ -58,14 +58,14 @@ public class Deck {
     public Well getWell(String location) throws Exception {
         String[] slitted = location.split("/");
         String plateName = slitted[0];
-        Pair<Integer,Integer> deckrowcol = nameToPos.get(plateName);
+        SimpleEntry<Integer,Integer> deckrowcol = nameToPos.get(plateName);
         Plate aplate = plates[deckrowcol.getKey()][deckrowcol.getValue()];
         
-        Pair<Integer,Integer> A1 = Well.parseWellLabel(slitted[1]);
+        SimpleEntry<Integer,Integer> A1 = Well.parseWellLabel(slitted[1]);
         return aplate.getWell(A1.getKey(), A1.getValue());
     }
     
-    public static Pair<Integer, Integer> calcDeckPosition(String location) throws Exception {
+    public static SimpleEntry<Integer, Integer> calcDeckPosition(String location) throws Exception {
         String A1 = location;
         if(A1.contains("/")) {
             String[] splitted = A1.split("/");

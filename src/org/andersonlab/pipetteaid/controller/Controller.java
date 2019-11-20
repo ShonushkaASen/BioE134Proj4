@@ -5,7 +5,7 @@ import org.andersonlab.pipetteaid.model.Well;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javafx.util.Pair;
+import java.util.AbstractMap.*;
 import org.ucb.c5.semiprotocol.model.*;
 import org.andersonlab.pipetteaid.view.View;
 import org.ucb.c5.semiprotocol.ParseSemiprotocol;
@@ -61,7 +61,7 @@ public class Controller {
         switch(task.getOperation()) {
             case addContainer:
                 AddContainer addcon = (AddContainer) task;
-                Pair<Integer, Integer> position = Deck.calcDeckPosition(addcon.getLocation());
+                SimpleEntry<Integer, Integer> position = Deck.calcDeckPosition(addcon.getLocation());
                 deck.addPlate(addcon.getName(), position.getKey(), position.getValue());
                 //Update the view
                 view.resetAll();
@@ -83,8 +83,8 @@ public class Controller {
                 view.resetAll();
                 String srcLocation = tfer.getSource();
                 System.out.println("srcLocation" + srcLocation);
-                Pair<Integer,Integer> srcPlatePos = deck.getPlatePos(srcLocation);
-                Pair<Integer,Integer> srcWell = Well.parseWellLabel(tfer.getSource());
+                SimpleEntry<Integer,Integer> srcPlatePos = deck.getPlatePos(srcLocation);
+                SimpleEntry<Integer,Integer> srcWell = Well.parseWellLabel(tfer.getSource());
                 
                 System.out.println("srcPlatePos" + srcPlatePos);
                 System.out.println("srcWell" + srcWell);
@@ -92,8 +92,8 @@ public class Controller {
                 //Color color, int plateRow, int plateCol, int wellRow, int wellCol
                 view.colorWell(Color.white, srcPlatePos.getKey(), srcPlatePos.getValue(), srcWell.getKey(), srcWell.getValue());
                 
-                Pair<Integer,Integer> dstPlatePos = deck.getPlatePos(tfer.getDest());
-                Pair<Integer,Integer> dstWell = Well.parseWellLabel(tfer.getDest());
+                SimpleEntry<Integer,Integer> dstPlatePos = deck.getPlatePos(tfer.getDest());
+                SimpleEntry<Integer,Integer> dstWell = Well.parseWellLabel(tfer.getDest());
                 
                 view.colorWell(Color.green, dstPlatePos.getKey(), dstPlatePos.getValue(), dstWell.getKey(), dstWell.getValue());
                 break;
