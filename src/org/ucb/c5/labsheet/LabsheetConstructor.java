@@ -1,6 +1,5 @@
 package org.ucb.c5.labsheet;
 
-import org.ucb.c5.composition.model.Construct;
 import org.ucb.c5.constructionfile.model.ConstructionFile;
 import org.ucb.c5.constructionfile.model.Operation;
 import org.ucb.c5.constructionfile.model.Step;
@@ -13,7 +12,7 @@ import java.util.List;
 
 
 public class LabsheetConstructor {
-
+/*
     private HashMap<Operation, List<Step>> stepMap;
     private FileWriter fw;
     private Inventory inventory;
@@ -22,6 +21,7 @@ public class LabsheetConstructor {
         inventory = new Inventory();
         inventory.initiate();
     }
+
     //creating multiple labSheets for the number of construction files in cfs
     public void run(List<ConstructionFile> cfs) throws Exception {
         //doing the same string creation operation for the number of labsheets (i.e. outputting one file for ALL operations)
@@ -42,18 +42,28 @@ public class LabsheetConstructor {
                 }
             }
 
-
             for (Operation op : stepMap.keySet()) {
                 List<Step> steps = stepMap.get(op);
                 String sheet = null;
                 switch(op) {
+                    case acquire:
+
+                        break;
                     case pcr:
                         //PCRSheetGenerator takes in a list of PCR steps
                         sheet = PCRSheetGenerator.run(steps, inventory); //Map<String,String>;
 
                  //           PCR pcrstep = (PCR) step;
                         break;
-                    case pca:
+                    case digest:
+                        break;
+                    case ligate:
+                        break;
+                    case assemble:
+                        break;
+                    case cleanup:
+                        break;
+                    case transform:
                         break;
                 }
                 labsheet.add(sheet);
@@ -66,4 +76,5 @@ public class LabsheetConstructor {
     private void writePCRSheet() {
 
     }
+    */
 }

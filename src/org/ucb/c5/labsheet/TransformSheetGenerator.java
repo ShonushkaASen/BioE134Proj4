@@ -8,7 +8,6 @@ import org.ucb.c5.constructionfile.model.Transformation;
 import java.util.List;
 
 public class TransformSheetGenerator {
-    // parts on sheet: source, samples, rescue_required
 
     public void initiate() throws Exception {
 
@@ -30,6 +29,11 @@ public class TransformSheetGenerator {
             samples.append("label_placeholder\t").append(product).append("\t").append(strain).append("\t")
                     .append(antibiotic).append('\t').append("incubate_placeholder").append("\n");
 
+            if (antibiotic.equals("Amp")) {
+                rescue_required += "no\n";
+            } else {
+                rescue_required += "yes\n";
+            }
         }
 
 
