@@ -13,20 +13,24 @@ public class TransformSheetGenerator {
 
     }
 
-    public static String run(List<Step> steps, Inventory inventory) throws Exception {
+    public static String run(List<Step> steps, Inventory inventory, String thread) throws Exception {
+        int current_sample_num = 0;
         StringBuilder source = new StringBuilder();
         StringBuilder samples = new StringBuilder();
+        source.append("source: thermocycler_placeholder\n");
         samples.append("samples: \n label\tproduct\tstrain\tantibiotic\tincubate\n");
         String rescue_required = "rescue_required: ";
 
         for (Step step : steps) {
+            current_sample_num++;
+            String label = thread + Integer.toString(current_sample_num);
             Transformation transform = (Transformation) step;
             String product = transform.getProduct();
             String strain = transform.getStrain();
             String antibiotic = transform.getAntibiotic().toString();
 //            Operation operation = transform.getOperation();
 
-            samples.append("label_placeholder\t").append(product).append("\t").append(strain).append("\t")
+            samples.append(label).append("\t").append(product).append("\t").append(strain).append("\t")
                     .append(antibiotic).append('\t').append("incubate_placeholder").append("\n");
 
             if (antibiotic.equals("Amp")) {
