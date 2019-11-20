@@ -9,8 +9,9 @@ public class PCRSheetGenerator { //, Inventory
     public void initiate() throws Exception {
     }
 
-    public static String run(List<Step> steps, Inventory inventory) throws Exception {
-
+    public static String run(List<Step> steps, Inventory inventory, String thread) throws Exception {
+        int current_sample_num = 0;
+        
         StringBuilder samples = new StringBuilder();
         samples.append("samples: \n label\tprimer1\tprimer2\ttemplate\tproduct\n");
         StringBuilder source = new StringBuilder();
@@ -23,9 +24,10 @@ public class PCRSheetGenerator { //, Inventory
 
         //to ensure we are not creating multiple sources for the same reagent
         HashSet<String> usedReagents = new HashSet<>();
-
+        
         for (Step step: steps) {
-
+            current_sample_num++;
+            String label = thread + Integer.toString(current_sample_num);
             PCR pcrstep = (PCR) step;
             String oligo1 = pcrstep.getOligo1();
             usedReagents.add(oligo1);
@@ -34,9 +36,9 @@ public class PCRSheetGenerator { //, Inventory
             String template = pcrstep.getTemplate();
             usedReagents.add(template);
             String product = pcrstep.getProduct();
-
+            
             //creating separate strings for each heading within the PCRSheet
-            samples.append("label_placeholder\t").append(oligo1).append("\t")
+            samples.append(label).append("\t").append(oligo1).append("\t")
                     .append(oligo2).append("\t").append(template).append('\t').append(product).append("\n");
 
             //for .get(0) we're assuming that inventory.get() return a Pair<string,string> where
@@ -79,7 +81,7 @@ public class PCRSheetGenerator { //, Inventory
             }
 
         }
-        String PCRSheet = "A_placeholder : PCR\n\n" + samples.toString() + '\n' + source.toString() + '\n' +
+        String PCRSheet = thread + " : PCR\n\n" + samples.toString() + '\n' + source.toString() + '\n' +
                 destination.toString() + '\n' + notes1.toString() + '\n' + dilutionDests.toString() + '\n';
         return PCRSheet;
     }

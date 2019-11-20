@@ -12,7 +12,7 @@ import java.util.List;
 
 
 public class LabsheetConstructor {
-/*
+
     private HashMap<Operation, List<Step>> stepMap;
     private FileWriter fw;
     private Inventory inventory;
@@ -76,5 +76,5 @@ public class LabsheetConstructor {
     private void writePCRSheet() {
 
     }
-    */
+    
 }
