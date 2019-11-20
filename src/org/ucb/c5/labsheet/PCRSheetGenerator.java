@@ -24,16 +24,10 @@ public class PCRSheetGenerator {
 
         //to ensure we are not creating multiple sources for the same reagent
         HashSet<String> usedReagents = new HashSet<>();
-<<<<<<< HEAD
-        
-        for (Step step: steps) {
-            current_sample_num++;
-            String label = thread + Integer.toString(current_sample_num);
-=======
 
         for (Step step : steps) {
-
->>>>>>> 4298f856c1d548c42a29239ff7d2763f5b02a7fb
+            current_sample_num++;
+            String label = thread + Integer.toString(current_sample_num);
             PCR pcrstep = (PCR) step;
             String oligo1 = pcrstep.getOligo1();
             usedReagents.add(oligo1);
