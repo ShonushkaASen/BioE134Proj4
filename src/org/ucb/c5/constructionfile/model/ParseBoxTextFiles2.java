@@ -14,38 +14,38 @@ import java.util.*;
 
 public class ParseBoxTextFiles2 {
     private HashMap<Integer, String> alphabet;
-    private ArrayList<HashMap>[][] boxGrid;
-    private String name;
+    private HashMap[][] boxGrid;
+    private String box_name;
     private String description;
     private String lab_location;
     private String temperature;
-    private Queue emptySpots;
+    private Queue<Location> emptySpots;
     private HashMap<Name, HashMap<Concentration, Location>> nameToConcToLoc;
 
 
     public void initiate() {
         nameToConcToLoc = new HashMap();
-        boxGrid = new ArrayList[9][9];
+        boxGrid = new HashMap[9][9];
         alphabet = new HashMap();
         nameToConcToLoc = new HashMap();
-        alphabet.put(1, "A");
-        alphabet.put(2, "B");
-        alphabet.put(3, "C");
-        alphabet.put(4, "D");
-        alphabet.put(5, "E");
-        alphabet.put(6, "F");
-        alphabet.put(7, "G");
-        alphabet.put(8, "H");
-        alphabet.put(9, "I");
+        emptySpots = new ArrayDeque<Location>();
+        alphabet.put(2, "A");
+        alphabet.put(4, "B");
+        alphabet.put(6, "C");
+        alphabet.put(8, "D");
+        alphabet.put(10, "E");
+        alphabet.put(12, "F");
+        alphabet.put(14, "G");
+        alphabet.put(16, "H");
+        alphabet.put(18, "I");
     }
 
 
-    public void run(String box_file) throws Exception {
-        Path filePath = Paths.get("/Users/sylviaillouz/Desktop/bioe134/constructionfile-and-protocol-demo-sylviaillouz/Proj4Files/inventory/"+ box_file +".txt");
+    public Box run(String box_file) throws Exception {
+        Path filePath = Paths.get("/Users/sylviaillouz/Desktop/bioe134/constructionfile-and-protocol-demo-sylviaillouz/Proj4Files/inventory/" + box_file + ".txt");
         String data = Files.readString(filePath);
 
         String[] sections = data.split(">>");
-        HashMap<String, String> attributeMap;
         parseHeader(sections[0]);
 
         for (int i = 1; i <= sections.length - 1; i++) {
@@ -55,59 +55,68 @@ public class ParseBoxTextFiles2 {
             String attribute = header[0];
 
             for (int j = 2; j < lines.length; j = j + 2) {
-                if (lines[j].matches("[0-9]+")) {
+                String[] tabs;
+                if (lines[j].substring(1).matches("[\t]+")) {
                     continue;
                 } else {
                     String line = lines[j];
-                    String[] tabs = line.split("\t");
-                    System.out.println(tabs[0] + tabs[1]);
+                    tabs = line.split("\t");
+
+                    for (int k = 1; k < tabs.length; k++) {
+                        if (!tabs[k].isEmpty()) {
+                            String tab = tabs[k];
+                            HashMap<String, String> attributeMap = boxGrid[(j / 2) - 1][k - 1];
+
+                            if (attributeMap == null) {
+                                attributeMap = new HashMap();
+                                boxGrid[(j / 2) - 1][k - 1] = attributeMap;
+                            }
+
+                            attributeMap.put(attribute, tab);
+                        }
+                    }
                 }
-
-
-                /*int k = 1;
-                for (String tab : tabs) {
-                        attributeMap = new HashMap();
-                        attributeMap.put(attribute, tab);
-                        boxGrid[j][k].add(attributeMap);
-                        k = k + 1;
-                } */
             }
-        }
-        //iterate through newly created boxgrid to find 1) empty spaces 2) populate map <comp map <concent, loc>>
-        for (int row = 0; row < boxGrid.length; row++) {
-            for (int col = 0; col < boxGrid[row].length; col++) {
-                if((boxGrid[row][col]).isEmpty()) {
-                    emptySpots.add(new Location(row,col));
-                } else {
-                    populateNameMap(boxGrid[row][col], row, col);
+            //iterate through newly created boxGrid to find 1) empty spaces 2) populate map <comp map <concent, loc>>
+            for (int row = 0; row < boxGrid.length; row++) {
+                for (int col = 0; col < boxGrid[row].length; col++) {
+                    if ((boxGrid[row][col]) == null) {
+                        emptySpots.add(new Location(row, col));
+                    } else {
+                        populateNameMap(boxGrid[row][col], row, col);
+                    }
+
                 }
-
             }
-        }
 
+        }
+        return new Box(box_name, description, lab_location, temperature, emptySpots, nameToConcToLoc);
     }
-    private void populateNameMap(ArrayList<HashMap> attribute_maps, int row, int col) {
-        for (int i = 0; i < attribute_maps.size(); i++) {
-           HashMap<String, String> curr_map = attribute_maps.get(i);
-           Name name;
-           Concentration concentration;
-           if(curr_map.containsKey("composition")) {
-               name = new Name(curr_map.get("composition"));
-           } else {
-               name = new Name(curr_map.get("name"));
-           }
-           if (curr_map.containsKey("concentration")) {
-               concentration = new Concentration(Integer.parseInt(curr_map.get("concentration")));
-           } else {
-               // if no concentration data available, concentration set to value -1
-               concentration = new Concentration();
-           }
-           Location location = new Location(row, col);
-           HashMap<Concentration, Location> concToLoc = new HashMap();
-           concToLoc.put(concentration, location);
-           nameToConcToLoc.put(name, concToLoc);
+    private void populateNameMap(HashMap<String, String> curr_map, int row, int col) {
+        Name name;
+        Concentration concentration;
+        if (curr_map.containsKey("composition")) {
+            name = new Name(curr_map.get("composition"));
+        } else {
+            name = new Name(curr_map.get("name"));
+        }
+        if (curr_map.containsKey("concentration")) {
+            String[] conc = curr_map.get("concentration").split(" ");
+            concentration = new Concentration(Integer.valueOf(conc[0]));
+        } else {
+            // if no concentration data available, concentration set to value -1
+            concentration = new Concentration();
+        }
+        Location location = new Location(row, col);
+        HashMap<Concentration, Location> concToLoc = new HashMap();
+        concToLoc.put(concentration, location);
+        nameToConcToLoc.put(name, concToLoc);
+        if (!(name.getName() == null)) {
+            System.out.println(" name: " + name.getName() + " concentration: " + concentration.getConcentration() + " location: " + location.getCol() + " " + location.getRow());
         }
     }
+
+
 
 
     private void parseHeader(String section) {
@@ -121,13 +130,17 @@ public class ParseBoxTextFiles2 {
 
             String[] tabs = line.split("\t");
             if ((tabs[0].equals(">name")) || tabs[0].equals("<composition")) {
-                name = tabs[1];
+                box_name = tabs[1];
+                System.out.println(box_name);
             } else if (tabs[0].equals(">description")) {
                 description = tabs[1];
+                System.out.println(description);
             } else if (tabs[0].equals(">location")) {
                 lab_location = tabs[1];
+                System.out.println(lab_location);
             } else if (tabs[0].equals(">temperature")) {
                 temperature = tabs[1];
+                System.out.println(temperature);
             }
         }
     }
@@ -136,8 +149,7 @@ public class ParseBoxTextFiles2 {
     public static void main(String[] args) throws Exception {
         ParseBoxTextFiles2 parser = new ParseBoxTextFiles2();
         parser.initiate();
-        parser.run("boxL");
-
+        Box box = parser.run("boxC");
     }
 }
 
