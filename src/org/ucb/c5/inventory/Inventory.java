@@ -1,3 +1,5 @@
+
+
 public class Inventory{
 	private List<Box> boxes;
 	private Hashmap<Box> threadtobox;

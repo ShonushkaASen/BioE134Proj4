@@ -8,7 +8,7 @@ import org.ucb.c5.constructionfile.model.Transformation;
 import java.util.List;
 
 public class TransformSheetGenerator {
-
+//contains transform, plate, pick, miniprep (i.e. those are called within this class)
     public void initiate() throws Exception {
 
     }
