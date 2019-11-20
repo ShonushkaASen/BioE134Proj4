@@ -16,6 +16,7 @@ public class ParseBoxTextFiles2 {
     private HashMap<Integer, String> alphabet;
     private HashMap[][] boxGrid;
     private String box_name;
+    private String thread;
     private String description;
     private String lab_location;
     private String temperature;
@@ -28,7 +29,7 @@ public class ParseBoxTextFiles2 {
         boxGrid = new HashMap[9][9];
         alphabet = new HashMap();
         nameToConcToLoc = new HashMap();
-        emptySpots = new ArrayDeque<Location>();
+        emptySpots = new ArrayDeque<>();
         alphabet.put(2, "A");
         alphabet.put(4, "B");
         alphabet.put(6, "C");
@@ -90,13 +91,14 @@ public class ParseBoxTextFiles2 {
             }
 
         }
-        return new Box(box_name, description, lab_location, temperature, emptySpots, nameToConcToLoc);
+        return new Box(box_name, thread, description, lab_location, temperature, emptySpots, nameToConcToLoc);
     }
     private void populateNameMap(HashMap<String, String> curr_map, int row, int col) {
         Name name;
         Concentration concentration;
         if (curr_map.containsKey("composition")) {
             name = new Name(curr_map.get("composition"));
+            System.out.println(name);
         } else {
             name = new Name(curr_map.get("name"));
         }
@@ -131,6 +133,7 @@ public class ParseBoxTextFiles2 {
             String[] tabs = line.split("\t");
             if ((tabs[0].equals(">name")) || tabs[0].equals("<composition")) {
                 box_name = tabs[1];
+                thread = Character.toString(box_name.charAt(3));
                 System.out.println(box_name);
             } else if (tabs[0].equals(">description")) {
                 description = tabs[1];
@@ -149,7 +152,7 @@ public class ParseBoxTextFiles2 {
     public static void main(String[] args) throws Exception {
         ParseBoxTextFiles2 parser = new ParseBoxTextFiles2();
         parser.initiate();
-        Box box = parser.run("boxC");
+        Box box = parser.run("boxL");
     }
 }
 
