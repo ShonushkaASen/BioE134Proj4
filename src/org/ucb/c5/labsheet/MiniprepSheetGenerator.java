@@ -1,6 +1,6 @@
 package org.ucb.c5.labsheet;
 
-//import org.ucb.c5.inventory.Inventory;
+import org.ucb.c5.inventory.Inventory;
 import java.util.List;
 import org.ucb.c5.constructionfile.model.Step;
 import org.ucb.c5.constructionfile.model.Transformation;
@@ -10,7 +10,7 @@ public class MiniprepSheetGenerator {
 
     }
     
-    public static String run(List<Step> steps, String thread) throws Exception {
+    public static String run(List<Step> steps, Inventory inventory, String thread) throws Exception {
         StringBuilder samples = new StringBuilder();
         samples.append("samples: \n culture\tlabel\tlocation\n");
 
