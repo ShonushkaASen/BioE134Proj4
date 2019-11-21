@@ -11,11 +11,11 @@ public class PlateSheetGenerator {
     }
     
     public static String run(List<Step> steps, Inventory inventory, String thread) throws Exception {
-        int current_sample_num = 0;
         StringBuilder samples = new StringBuilder();
         samples.append("samples: \n label\tproduct\tstrain\tantibiotic\tincubate\n");
+
+        int current_sample_num = 1;
         for (Step step : steps) {
-            current_sample_num++;
             String label = thread + Integer.toString(current_sample_num);
             Transformation transform = (Transformation) step;
             String product = transform.getProduct();
@@ -24,6 +24,7 @@ public class PlateSheetGenerator {
             
             samples.append(label).append("\t").append(product).append("\t").append(strain).append("\t")
                     .append(antibiotic).append('\t').append("incubate_placeholder").append("\n");
+            current_sample_num++;
         }
         return samples.toString();
     }
