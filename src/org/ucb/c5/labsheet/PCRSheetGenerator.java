@@ -33,7 +33,7 @@ public class PCRSheetGenerator {
             usedReagents.add(oligo2);
             String template = pcrstep.getTemplate();
             usedReagents.add(template);
-            String product = String.format("%s-%s/%s", oligo2, oligo1, pcrstep.getProduct());
+            String product = String.format("%s-%s/%s", template, oligo1, pcrstep.getProduct());
 
             //creating separate strings for each heading within the PCRSheet
             samples.append(label).append("\t").append(oligo1).append("\t")
