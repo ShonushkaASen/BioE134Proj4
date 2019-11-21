@@ -28,7 +28,7 @@ public class ParseBoxTextFiles2 {
 
     public void initiate() {
         nameToConcToLoc = new HashMap();
-        boxGrid = new HashMap[10][9];
+        boxGrid = new HashMap[10][10];
         alphabet = new HashMap();
         nameToConcToLoc = new HashMap();
         emptySpots = new ArrayDeque<>();
@@ -125,7 +125,12 @@ public class ParseBoxTextFiles2 {
         }
         if (curr_map.containsKey("concentration")) {
             String[] conc = curr_map.get("concentration").split(" ");
-            concentration = new Concentration(Double.valueOf(conc[0]));
+            if (!(conc[0].matches("[0-9]"))) {
+                concentration = new Concentration(10.0);
+            }
+            else {
+                concentration = new Concentration(Double.valueOf(conc[0]));
+            }
         } else {
             // if no concentration data available, concentration set to value -1
             concentration = new Concentration();
@@ -165,7 +170,7 @@ public class ParseBoxTextFiles2 {
     public static void main(String[] args) throws Exception {
         ParseBoxTextFiles2 parser = new ParseBoxTextFiles2();
         parser.initiate();
-        Box box = parser.run("boxL");
+        Box box = parser.run("boxA");
     }
 }
 
