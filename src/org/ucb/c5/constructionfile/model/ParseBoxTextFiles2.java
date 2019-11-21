@@ -1,16 +1,18 @@
 package org.ucb.c5.constructionfile.model;
 
-import org.knowm.xchart.internal.Utils;
-import org.ucb.c5.utils.FileUtils;
-import org.w3c.dom.Attr;
-
-import java.io.File;
-import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+/**
+ *
+ * @author Sylvia Illouz
+ * This parser takes tab deliniated text files for boxes in the wet lab and using their data, populates box Objects
+ * Each box object has a bunch of meta data (temperature, thread, etc), a map that makes retrieval of location easy,
+ * and contains a queue of all open spots in the box (meaning that there is no current composition present at that
+ * location in the box)
+ */
 
 public class ParseBoxTextFiles2 {
     private HashMap<String, Integer> alphabet;
@@ -44,30 +46,31 @@ public class ParseBoxTextFiles2 {
 
 
     public Box run(String box_file) throws Exception {
+        // read the file and create a string containing all text
         Path filePath = Paths.get("/Users/sylviaillouz/Desktop/bioe134/constructionfile-and-protocol-demo-sylviaillouz/Proj4Files/inventory/" + box_file + ".txt");
         String data = Files.readString(filePath);
 
+        //splitting text by >> characters that separate sections of the file based on an attribute (composition, concentration, label)
         String[] sections = data.split(">>");
         parseHeader(sections[0]);
 
+        //iterating through each section and populating a grid of hashmaps from attribute: value, that represents the contents of the lab box
         for (int i = 1; i < sections.length; i++) {
             String section = sections[i];
             String[] lines = section.split("\\r|\\r?\\n");
-            for (int a = 0; a < lines.length; a++) {
-                System.out.print(a + ": ");
-                System.out.print(lines[a]);
-                System.out.println();
-            }
+
+            // the first line of every section will be it's header, containing no real data, thus we handle it separately
             String[] header = lines[0].split("\t");
             String attribute = header[0];
 
+            //if the line is completely empty, aka does not represent any space in a box (either empty box spots or filled with tubes), don't address it
             for (int j = 1; j < lines.length; j++) {
                 String[] tabs;
                 if (lines[j].isEmpty()) {
                     continue;
                 }
+                // for each row in the box, create a mapping of the attribute to its value and place it respective row and column location in the box grid
                 String row_indicator = lines[j].substring(0, 1);
-                System.out.println(row_indicator);
                 if (row_indicator.matches("[1-9]") || row_indicator.matches("[A-Z]")) {
                     String line = lines[j];
                     tabs = line.split("\t");
@@ -77,12 +80,13 @@ public class ParseBoxTextFiles2 {
                     } else {
                         rowNum = alphabet.get(row_indicator);
                     }
-                    System.out.println(rowNum);
                     for (int k = 1; k < tabs.length; k++) {
+                        // if the tab isnt empty, there's data to capture (e.g a concentration, a name, a label, etc)
                         if (!tabs[k].isEmpty()) {
                             String tab = tabs[k];
                             HashMap<String, String> attributeMap = boxGrid[rowNum - 1][k - 1];
 
+                            // if the tab is empty, add that spot of the box to the queue of empty spots
                             if (attributeMap == null) {
                                 attributeMap = new HashMap();
                                 boxGrid[rowNum - 1][k - 1] = attributeMap;
@@ -106,9 +110,11 @@ public class ParseBoxTextFiles2 {
             }
 
         }
+        //return box populated box object
         return new Box(box_name, thread, description, lab_location, temperature, emptySpots, nameToConcToLoc);
     }
 
+    //this method takes each spot in the grid and its respective attribute map and populates the nameToConcToLoc map
     private void populateNameMap(HashMap<String, String> curr_map, int row, int col) {
         Name name;
         Concentration concentration;
@@ -128,12 +134,10 @@ public class ParseBoxTextFiles2 {
         HashMap<Concentration, Location> concToLoc = new HashMap();
         concToLoc.put(concentration, location);
         nameToConcToLoc.put(name, concToLoc);
-        if (!(name.getName() == null)) {
-            System.out.println(" name: " + name.getName() + " concentration: " + concentration.getConcentration() + " location: " + location.getRow() + " " + location.getCol());
-        }
+
     }
 
-
+    //handles the special case of the first section of each box file containting general info about the box
     private void parseHeader(String section) {
         String[] lines = section.split("\\r|\\r?\\n");
         //iterate through header to populate box meta data
@@ -147,16 +151,12 @@ public class ParseBoxTextFiles2 {
             if ((tabs[0].equals(">name")) || tabs[0].equals("<composition")) {
                 box_name = tabs[1];
                 thread = Character.toString(box_name.charAt(3));
-                System.out.println(box_name);
             } else if (tabs[0].equals(">description")) {
                 description = tabs[1];
-                System.out.println(description);
             } else if (tabs[0].equals(">location")) {
                 lab_location = tabs[1];
-                System.out.println(lab_location);
             } else if (tabs[0].equals(">temperature")) {
                 temperature = tabs[1];
-                System.out.println(temperature);
             }
         }
     }
@@ -165,11 +165,8 @@ public class ParseBoxTextFiles2 {
     public static void main(String[] args) throws Exception {
         ParseBoxTextFiles2 parser = new ParseBoxTextFiles2();
         parser.initiate();
-        Box box = parser.run("boxA");
-        Queue<Location> queue = box.getEmptySpots();
-        for (Location s : queue) {
-            System.out.println("empty: " + s.getRow() + " " + s.getCol());
-        }
+        Box box = parser.run("boxL");
     }
 }
+
 
