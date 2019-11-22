@@ -2,9 +2,6 @@ package org.ucb.c5.Inventory;
 
 import org.ucb.c5.utils.FileUtils;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -25,12 +22,12 @@ public class ParseBoxFile {
     private String lab_location;
     private String temperature;
     private Queue<Location> emptySpots;
-    private HashMap<String, HashMap<Concentration, Location>> nameToConcToLoc;
+    private HashMap<String, HashMap<Double, Location>> nameToConcToLoc;
 
 
     public void initiate() {
         nameToConcToLoc = new HashMap();
-        boxGrid = new HashMap[10][9];
+        boxGrid = new HashMap[10][10];
         alphabet = new HashMap();
         nameToConcToLoc = new HashMap();
         emptySpots = new ArrayDeque<>();
@@ -49,7 +46,7 @@ public class ParseBoxFile {
 
     public Box run(String box_file) throws Exception {
         // read the file and create a string containing all text
-        //ath filePath = Paths.get("/Users/sylviaillouz/Desktop/bioe134/constructionfile-and-protocol-demo-sylviaillouz/Proj4Files/inventory/" + box_file + ".txt");
+        //Path filePath = Paths.get("/Users/sylviaillouz/Desktop/bioe134/constructionfile-and-protocol-demo-sylviaillouz/Proj4Files/inventory/" + box_file + ".txt");
         String data = FileUtils.readFile("C:\\Users\\Arjun Chandran\\Documents\\BioE 134\\Proj4Files\\inventory\\" + box_file);
 
         //splitting text by >> characters that separate sections of the file based on an attribute (composition, concentration, label)
@@ -119,22 +116,26 @@ public class ParseBoxFile {
     //this method takes each spot in the grid and its respective attribute map and populates the nameToConcToLoc map
     private void populateNameMap(HashMap<String, String> curr_map, int row, int col) {
         String name;
-        Concentration concentration;
+        Double concentration;
         if (curr_map.containsKey("composition")) {
-            name = "composition";
+            name = curr_map.get("composition");
         } else {
             name = curr_map.get("name");
         }
         if (curr_map.containsKey("concentration")) {
             String[] conc = curr_map.get("concentration").split(" ");
-            concentration = new Concentration(Double.valueOf(conc[0]));
+            if (!(conc[0].matches("[0-9]"))) {
+                concentration = 10.0;
+            }
+            else {
+                concentration = Double.valueOf(conc[0]);
+            }
         } else {
             // if no concentration data available, concentration set to value -1
-            Double con = -1.0;
-            concentration = new Concentration(con);
+            concentration = -1.0;
         }
         Location location = new Location(row, col);
-        HashMap<Concentration, Location> concToLoc = new HashMap();
+        HashMap<Double, Location> concToLoc = new HashMap();
         concToLoc.put(concentration, location);
         nameToConcToLoc.put(name, concToLoc);
 
@@ -168,6 +169,6 @@ public class ParseBoxFile {
     public static void main(String[] args) throws Exception {
         ParseBoxFile parser = new ParseBoxFile();
         parser.initiate();
-        Box box = parser.run("boxO.txt");
+        Box box = parser.run("boxB.txt");
     }
 }

@@ -13,15 +13,16 @@ public class Inventory{
 	private List<Box> boxes;
 	private HashMap<Experimentalthrd, Box> threadtobox;
 	public void initiate() throws Exception {
+		//Path to the folder containing all the files.
 		File folder = new File("C:\\Users\\Arjun Chandran\\Documents\\BioE 134\\Proj4Files\\inventory");
 		File[] listofboxes = folder.listFiles();
 		threadtobox = new HashMap();
 		boxes = new ArrayList<>();
 		for(File file: listofboxes){
+			String filename = file.getName();
 			ParseBoxFile parser = new ParseBoxFile();
 			parser.initiate();
-			String filename = file.getName();
-			if(!filename.contains("box")) {
+			if(filename.contains(".DS")) {
 				continue;
 			}
 			Box curr = parser.run(filename);
@@ -32,7 +33,7 @@ public class Inventory{
 		}
 	}
 	//Maybe include thread info here to eliminate the need to iterate. 
-	public Pair<String, String> get(String name, Concentration con){
+	public Pair<String, String> get(String name, Double con){
 		//output is Pair<string, string> where first string is location, second string is a dilution note
 		Location currloc = null;
 		String lab_loc = null;
@@ -40,33 +41,36 @@ public class Inventory{
 		String part2 = new String("");
 		for(Box box: boxes){
 			if (box.containsName(name)){
-				HashMap<Concentration, Location> loc = box.get(name);
+				HashMap<Double, Location> loc = box.get(name);
 				if (loc.containsKey(con)){
 					currloc = loc.get(con);
 					lab_loc = box.getLabLocation();
 					desired = box;
 					break;
 				} else {
-					Set<Concentration> concentrations = loc.keySet();
+					Set<Double> concentrations = loc.keySet();
+					currloc = loc.get(-1.0);
+					lab_loc = box.getLabLocation();
+					concentrations.remove(-1.0);
 					if (concentrations.isEmpty()){
 						//for now I am just going to print out these outputs... later on we can workout how we wanna handle these.
 						System.out.println("There were no documented concentrations for this object");
+						desired = box;
 						// -1 since that what we decided for those that have a null concentration
-						currloc = loc.get(-1);
-						lab_loc = box.getLabLocation();
 					} else{
-						for(Concentration curr: concentrations){
+						for(Double curr: concentrations){
 							//Concentration class should have a to Integer method
-							if (curr.getConcentration() % con.getConcentration() == 0){
+							if (curr % con == 0){
 								currloc = loc.get(curr);
 								lab_loc = box.getLabLocation();
 								desired = box;
-								break;
+							} else {
+								currloc = loc.get(curr);
+								lab_loc = box.getLabLocation();
+								desired = box;
 							}
-							currloc = loc.get(curr);
-							lab_loc = box.getLabLocation();
-							Double a = curr.getConcentration();
-							Double b = con.getConcentration();
+							Double a = curr;
+							Double b = con;
 							//make a dilution object that higher levels can look for to output the below print statement
 							part2 = new String(a/b + " X solution of " + name + " needs to be made");
 						}
@@ -88,7 +92,7 @@ public class Inventory{
 		Pair returned = new Pair(part1, part2);
 		return returned;
 	}
-	public String put(String name, Concentration concentration, String currthrd){
+	public String put(String name, Double concentration, String currthrd){
 		//return location placed
 		Experimentalthrd thrd = new Experimentalthrd(currthrd);
 		Box currplace = threadtobox.get(thrd);
@@ -106,8 +110,8 @@ public class Inventory{
 	public static void main(String[] args) throws Exception {
 		Inventory in = new Inventory();
 		in.initiate();
-		String oligo = "pTarget-cscR1-B";
-		Concentration concen = new Concentration(-1.0);
+		String oligo = "T4L1";
+		Double concen = 1.0;
 		Pair<String, String> loc = in.get(oligo, concen);
 		System.out.println(loc.getKey());
 		System.out.println(loc.getValue());

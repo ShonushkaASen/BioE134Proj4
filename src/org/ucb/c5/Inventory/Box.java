@@ -10,9 +10,9 @@ public class Box{
     private String labLocation;
     private String boxTemperature;
     private Queue<Location> emptySpots;
-    private HashMap<String, HashMap<Concentration, Location>> everythings_loc;
+    private HashMap<String, HashMap<Double, Location>> everythings_loc;
 
-    public Box (String name, String boxThread, String description, String labLocation, String temperature, Queue<Location> emptySpots, HashMap<String, HashMap<Concentration, Location>> everythings_loc) {
+    public Box (String name, String boxThread, String description, String labLocation, String temperature, Queue<Location> emptySpots, HashMap<String, HashMap<Double, Location>> everythings_loc) {
         this.boxName = name;
         this.boxDescription = description;
         this.boxThread = new Experimentalthrd(boxThread);
@@ -43,13 +43,13 @@ public class Box{
     public boolean containsName(String name){
         return everythings_loc.containsKey(name);
     }
-    public void put(String name, Concentration conc){
+    public void put(String name, Double conc){
         Location filled = emptySpots.remove();
-        HashMap newstuff = new HashMap<Concentration, Location>();
+        HashMap newstuff = new HashMap<Double, Location>();
         newstuff.put(conc, filled);
         everythings_loc.put(name, newstuff);
     }
-    public HashMap<Concentration, Location> get(String name){
+    public HashMap<Double, Location> get(String name){
         return everythings_loc.get(name);
     }
 }
