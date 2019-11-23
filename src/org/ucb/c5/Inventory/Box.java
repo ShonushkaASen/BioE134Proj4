@@ -6,7 +6,7 @@ import java.util.Queue;
 public class Box{
     private String boxDescription;
     private String boxName;
-    private Experimentalthrd boxThread;
+    private String boxThread;
     private String labLocation;
     private String boxTemperature;
     private Queue<Location> emptySpots;
@@ -15,7 +15,7 @@ public class Box{
     public Box (String name, String boxThread, String description, String labLocation, String temperature, Queue<Location> emptySpots, HashMap<String, HashMap<Double, Location>> everythings_loc) {
         this.boxName = name;
         this.boxDescription = description;
-        this.boxThread = new Experimentalthrd(boxThread);
+        this.boxThread = boxThread;
         this.labLocation = labLocation;
         this.boxTemperature = temperature;
         this.emptySpots = emptySpots;
@@ -25,7 +25,7 @@ public class Box{
     public String getBoxName() {
         return boxName;
     }
-    public Experimentalthrd getBoxThread() {
+    public String getBoxThread() {
         return boxThread;
     }
     public String getBoxDescription() {

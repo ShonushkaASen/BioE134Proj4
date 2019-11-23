@@ -11,7 +11,7 @@ import org.ucb.c5.Inventory.ParseBoxFile;
 
 public class Inventory{
 	private List<Box> boxes;
-	private HashMap<Experimentalthrd, Box> threadtobox;
+	private HashMap<String, Box> threadtobox;
 	public void initiate() throws Exception {
 		//Path to the folder containing all the files.
 		File folder = new File("C:\\Users\\Arjun Chandran\\Documents\\BioE 134\\Proj4Files\\inventory");
@@ -27,7 +27,7 @@ public class Inventory{
 			}
 			Box curr = parser.run(filename);
 			//We need the box's thread attribute in a seperate class
-			Experimentalthrd currthrd = curr.getBoxThread();
+			String currthrd = curr.getBoxThread();
 			threadtobox.put(currthrd, curr);
 			boxes.add(curr);
 		}
@@ -94,8 +94,7 @@ public class Inventory{
 	}
 	public String put(String name, Double concentration, String currthrd){
 		//return location placed
-		Experimentalthrd thrd = new Experimentalthrd(currthrd);
-		Box currplace = threadtobox.get(thrd);
+		Box currplace = threadtobox.get(currthrd);
 		//box itself should have a put method that handles the internals of changing that box's data
 		currplace.put(name, concentration);
 		Pair<String, String> loc = get(name, concentration);
