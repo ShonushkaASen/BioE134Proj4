@@ -22,7 +22,7 @@ public class MiniprepSheetGenerator {
             String label1 = transform.getProduct() + "-A";
             String label2 = transform.getProduct() + "-B";
 
-            
+            //to get locations, the put() method of inventory should return the location
             samples.append(culture1).append("\t").append(label1).append("\t").append("location_placeholder").append("\n");
             samples.append(culture2).append("\t").append(label2).append("\t").append("location_placeholder").append("\n");
         }
