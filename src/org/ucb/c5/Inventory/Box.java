@@ -10,16 +10,16 @@ public class Box{
     private String labLocation;
     private String boxTemperature;
     private Queue<Location> emptySpots;
-    private HashMap<String, HashMap<Double, Location>> everythings_loc;
+    private HashMap<String, HashMap<Double, Location>> mapOfNameToMapOfConcentrationToLocation;
 
-    public Box (String name, String boxThread, String description, String labLocation, String temperature, Queue<Location> emptySpots, HashMap<String, HashMap<Double, Location>> everythings_loc) {
+    public Box (String name, String boxThread, String description, String labLocation, String temperature, Queue<Location> emptySpots, HashMap<String, HashMap<Double, Location>> nameToConcentrationToLocation) {
         this.boxName = name;
         this.boxDescription = description;
         this.boxThread = boxThread;
         this.labLocation = labLocation;
         this.boxTemperature = temperature;
         this.emptySpots = emptySpots;
-        this.everythings_loc = everythings_loc;
+        this.mapOfNameToMapOfConcentrationToLocation = nameToConcentrationToLocation;
     }
 
     public String getBoxName() {
@@ -41,15 +41,15 @@ public class Box{
         return emptySpots;
     }
     public boolean containsName(String name){
-        return everythings_loc.containsKey(name);
+        return mapOfNameToMapOfConcentrationToLocation.containsKey(name);
     }
     public void put(String name, Double conc){
         Location filled = emptySpots.remove();
-        HashMap newstuff = new HashMap<Double, Location>();
-        newstuff.put(conc, filled);
-        everythings_loc.put(name, newstuff);
+        HashMap concentrationAndLocation = new HashMap<Double, Location>();
+        concentrationAndLocation.put(conc, filled);
+        mapOfNameToMapOfConcentrationToLocation.put(name, concentrationAndLocation);
     }
     public HashMap<Double, Location> get(String name){
-        return everythings_loc.get(name);
+        return mapOfNameToMapOfConcentrationToLocation.get(name);
     }
 }
