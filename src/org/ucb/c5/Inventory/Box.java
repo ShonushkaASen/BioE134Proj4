@@ -11,8 +11,9 @@ public class Box{
     private String boxTemperature;
     private Queue<Location> emptySpots;
     private HashMap<String, HashMap<Double, Location>> everythings_loc;
+    private HashMap[][] boxGrid;
 
-    public Box (String name, String boxThread, String description, String labLocation, String temperature, Queue<Location> emptySpots, HashMap<String, HashMap<Double, Location>> everythings_loc) {
+    public Box (String name, String boxThread, String description, String labLocation, String temperature, Queue<Location> emptySpots, HashMap<String, HashMap<Double, Location>> everythings_loc, HashMap[][] boxGrid) {
         this.boxName = name;
         this.boxDescription = description;
         this.boxThread = boxThread;
@@ -20,6 +21,7 @@ public class Box{
         this.boxTemperature = temperature;
         this.emptySpots = emptySpots;
         this.everythings_loc = everythings_loc;
+        this.boxGrid = boxGrid;
     }
 
     public String getBoxName() {
@@ -39,6 +41,9 @@ public class Box{
     }
     public Queue getEmptySpots() {
         return emptySpots;
+    }
+    public HashMap[][] getBoxGrid() {
+        return boxGrid;
     }
     public boolean containsName(String name){
         return everythings_loc.containsKey(name);

@@ -14,7 +14,10 @@ import java.util.*;
  */
 
 public class ParseBoxFile {
-    private HashMap<String, Integer> alphabet;
+    public ParseBoxFile() {
+
+    }
+    HashMap<String, Integer> alphabet;
     private HashMap[][] boxGrid;
     private String box_name;
     private String thread;
@@ -23,7 +26,6 @@ public class ParseBoxFile {
     private String temperature;
     private Queue<Location> emptySpots;
     private HashMap<String, HashMap<Double, Location>> nameToConcToLoc;
-
 
     public void initiate() {
         nameToConcToLoc = new HashMap();
@@ -47,7 +49,7 @@ public class ParseBoxFile {
     public Box run(String box_file) throws Exception {
         // read the file and create a string containing all text
         //Path filePath = Paths.get("/Users/sylviaillouz/Desktop/bioe134/constructionfile-and-protocol-demo-sylviaillouz/Proj4Files/inventory/" + box_file + ".txt");
-        String data = FileUtils.readFile("C:\\Users\\Arjun Chandran\\Documents\\BioE 134\\Proj4Files\\inventory\\" + box_file);
+        String data = FileUtils.readFile("/Users/sylviaillouz/Desktop/bioe134/constructionfile-and-protocol-demo-sylviaillouz/Proj4Files/inventory/" + box_file);
 
         //splitting text by >> characters that separate sections of the file based on an attribute (composition, concentration, label)
         String[] sections = data.split(">>");
@@ -110,7 +112,7 @@ public class ParseBoxFile {
 
         }
         //return box populated box object
-        return new Box(box_name, thread, description, lab_location, temperature, emptySpots, nameToConcToLoc);
+        return new Box(box_name, thread, description, lab_location, temperature, emptySpots, nameToConcToLoc, boxGrid);
     }
 
     //this method takes each spot in the grid and its respective attribute map and populates the nameToConcToLoc map
@@ -134,6 +136,7 @@ public class ParseBoxFile {
             // if no concentration data available, concentration set to value -1
             concentration = -1.0;
         }
+
         Location location = new Location(row, col);
         HashMap<Double, Location> concToLoc = new HashMap();
         concToLoc.put(concentration, location);
@@ -154,7 +157,12 @@ public class ParseBoxFile {
             String[] tabs = line.split("\t");
             if ((tabs[0].equals(">name")) || tabs[0].equals("<composition")) {
                 box_name = tabs[1];
-                thread = Character.toString(box_name.charAt(3));
+                if (box_name.contains("box")) {
+                    thread = Character.toString(box_name.charAt(3));
+                } else {
+                    thread = box_name;
+                }
+
             } else if (tabs[0].equals(">description")) {
                 description = tabs[1];
             } else if (tabs[0].equals(">location")) {
