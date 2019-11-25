@@ -263,7 +263,7 @@ public class Inventory {
 				data.append(">>note").append("\t").append(columns).append("\n");
 				data.append(note.toString());
 			}
-			File file = new File("/Users/sylviaillouz/Desktop/bioe134/constructionfile-and-protocol-demo-sylviaillouz/Proj4/BioE134Proj4/src/org/ucb/c5/Inventory/Proj4Files/inventory/sylvia.txt");
+			File file = new File("/Users/sylviaillouz/Desktop/bioe134/constructionfile-and-protocol-demo-sylviaillouz/Proj4/BioE134Proj4/src/org/ucb/c5/Inventory/Proj4Files/inventory/" + box.getBoxName() + "updated.txt");
 			FileWriter rewrite = new FileWriter(file, true);
 			rewrite.write(data.toString());
 			rewrite.close();
