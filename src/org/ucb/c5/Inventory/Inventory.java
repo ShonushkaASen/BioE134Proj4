@@ -46,7 +46,6 @@ public class Inventory {
 			nametobox.put(currname,curr);
 			//all boxes are then stored in a list for later look up in the inventory.
 			boxes.add(curr);
-			System.out.println(curr.getBoxName());
 		}
 	}
 	//Maybe include thread info here to eliminate the need to iterate. 
@@ -153,7 +152,6 @@ public class Inventory {
 			StringBuilder clone = new StringBuilder();
 
 			//header
-			System.out.println(box.getBoxName());
 			data.append(">name").append("\t").append(box.getBoxName()).append("\n");
 			data.append(">description").append("\t").append(box.getBoxDescription()).append("\n");
 			data.append(">location").append("\t").append(box.getLabLocation()).append("\n");
@@ -265,11 +263,10 @@ public class Inventory {
 				data.append(">>note").append("\t").append(columns).append("\n");
 				data.append(note.toString());
 			}
-			//System.out.println(data.toString());
-			//File file = new File("/Users/sylviaillouz/Desktop/bioe134/constructionfile-and-protocol-demo-sylviaillouz/Proj4/BioE134Proj4/src/org/ucb/c5/Inventory/Proj4Files/inventory/dummyfile.txt");
-			//FileWriter rewrite = new FileWriter(file, false);
-			//rewrite.write(data.toString());
-			//rewrite.close();
+			File file = new File("/Users/sylviaillouz/Desktop/bioe134/constructionfile-and-protocol-demo-sylviaillouz/Proj4/BioE134Proj4/src/org/ucb/c5/Inventory/Proj4Files/inventory/sylvia.txt");
+			FileWriter rewrite = new FileWriter(file, true);
+			rewrite.write(data.toString());
+			rewrite.close();
 		}
 
 	}
@@ -296,8 +293,8 @@ public class Inventory {
 		Double concen = 1.0;
 		SimpleEntry<String, String> loc = in.get(oligo, concen);
 		System.out.println(loc);
-		//String loc23 = in.put("Arjun", 10.0, "boxO");
-		//System.out.println(loc23);
-		//in.write();
+		String loc23 = in.put("Arjun", 10.0, "boxO");
+		System.out.println(loc23);
+		in.write();
 	}
 }
