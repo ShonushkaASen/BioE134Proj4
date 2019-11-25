@@ -29,7 +29,7 @@ public class PickSheetGenerator {
 
 
             samples.append(source).append("\t").append(product).append("\t").append(strain).append("\t")
-                    .append(antibiotic).append('\t').append("incubate_placeholder").append(label1)
+                    .append(antibiotic).append('\t').append("incubate_placeholder").append("2").append(label1)
                     .append(", ").append(label2).append("\n");
             current_sample_num++;
         }
