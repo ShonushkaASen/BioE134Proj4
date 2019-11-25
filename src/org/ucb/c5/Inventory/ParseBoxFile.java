@@ -14,7 +14,10 @@ import java.util.*;
  */
 
 public class ParseBoxFile {
-    private HashMap<String, Integer> alphabet;
+    public ParseBoxFile() {
+
+    }
+    HashMap<String, Integer> alphabet;
     private HashMap[][] boxGrid;
     private String box_name;
     private String thread;
@@ -23,7 +26,6 @@ public class ParseBoxFile {
     private String temperature;
     private Queue<Location> emptySpots;
     private HashMap<String, HashMap<Double, Location>> nameToConcToLoc;
-
 
     public void initiate() {
         nameToConcToLoc = new HashMap();
@@ -110,7 +112,7 @@ public class ParseBoxFile {
 
         }
         //return box populated box object
-        return new Box(box_name, thread, description, lab_location, temperature, emptySpots, nameToConcToLoc);
+        return new Box(box_name, thread, description, lab_location, temperature, emptySpots, nameToConcToLoc, boxGrid);
     }
 
     //this method takes each spot in the grid and its respective attribute map and populates the nameToConcToLoc map
@@ -134,6 +136,7 @@ public class ParseBoxFile {
             // if no concentration data available, concentration set to value -1
             concentration = -1.0;
         }
+
         Location location = new Location(row, col);
         HashMap<Double, Location> concToLoc = new HashMap();
         concToLoc.put(concentration, location);
@@ -154,7 +157,12 @@ public class ParseBoxFile {
             String[] tabs = line.split("\t");
             if ((tabs[0].equals(">name")) || tabs[0].equals("<composition")) {
                 box_name = tabs[1];
-                thread = Character.toString(box_name.charAt(3));
+                if (box_name.contains("box")) {
+                    thread = Character.toString(box_name.charAt(3));
+                } else {
+                    thread = box_name;
+                }
+
             } else if (tabs[0].equals(">description")) {
                 description = tabs[1];
             } else if (tabs[0].equals(">location")) {

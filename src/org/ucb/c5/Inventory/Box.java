@@ -10,16 +10,19 @@ public class Box{
     private String labLocation;
     private String boxTemperature;
     private Queue<Location> emptySpots;
-    private HashMap<String, HashMap<Double, Location>> mapOfNameToMapOfConcentrationToLocation;
+    private HashMap<String, HashMap<Double, Location>> nameToConcToLoc;
+    private HashMap[][] boxGrid;
 
-    public Box (String name, String boxThread, String description, String labLocation, String temperature, Queue<Location> emptySpots, HashMap<String, HashMap<Double, Location>> nameToConcentrationToLocation) {
+    public Box (String name, String boxThread, String description, String labLocation, String temperature, Queue<Location> emptySpots, HashMap<String, HashMap<Double, Location>> nameToConcToLoc, HashMap[][] boxGrid) {
+
         this.boxName = name;
         this.boxDescription = description;
         this.boxThread = boxThread;
         this.labLocation = labLocation;
         this.boxTemperature = temperature;
         this.emptySpots = emptySpots;
-        this.mapOfNameToMapOfConcentrationToLocation = nameToConcentrationToLocation;
+        this.nameToConcToLoc = nameToConcToLoc;
+        this.boxGrid = boxGrid;
     }
 
     public String getBoxName() {
@@ -40,16 +43,19 @@ public class Box{
     public Queue getEmptySpots() {
         return emptySpots;
     }
+    public HashMap[][] getBoxGrid() {
+        return boxGrid;
+    }
     public boolean containsName(String name){
-        return mapOfNameToMapOfConcentrationToLocation.containsKey(name);
+        return nameToConcToLoc.containsKey(name);
     }
     public void put(String name, Double conc){
         Location filled = emptySpots.remove();
         HashMap concentrationAndLocation = new HashMap<Double, Location>();
         concentrationAndLocation.put(conc, filled);
-        mapOfNameToMapOfConcentrationToLocation.put(name, concentrationAndLocation);
+        nameToConcToLoc.put(name, concentrationAndLocation);
     }
     public HashMap<Double, Location> get(String name){
-        return mapOfNameToMapOfConcentrationToLocation.get(name);
+        return nameToConcToLoc.get(name);
     }
 }
