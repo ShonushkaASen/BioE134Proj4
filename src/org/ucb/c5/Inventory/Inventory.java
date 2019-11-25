@@ -1,10 +1,7 @@
 package org.ucb.c5.Inventory;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
-import java.lang.reflect.Array;
-import java.util.*;
+
 import java.util.AbstractMap.*;
-import org.ucb.c5.Inventory.Box;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -13,13 +10,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
-import org.ucb.c5.Inventory.ParseBoxFile;
 
 /**
  * @author Arjun Chandra: initiate(), get(), put()
  * @author Sylvia Illouz: write()
  */
-public class Inventory{
+public class Inventory {
 	private List<Box> boxes;
 	private HashMap<String, Box> nametobox;
 	public void initiate() throws Exception {
@@ -32,7 +28,7 @@ public class Inventory{
 		//Hashmap for easy look up of what box to put something in when storing a new item
 		nametobox = new HashMap();
 		boxes = new ArrayList<>();
-		for(File file: listofboxes) {
+		for (File file: listofboxes) {
 		//Loop iterates through all files and generates appropriate box classes for each using Sylvia's parser
 
 			String filename = file.getName();
@@ -50,6 +46,7 @@ public class Inventory{
 			nametobox.put(currname,curr);
 			//all boxes are then stored in a list for later look up in the inventory.
 			boxes.add(curr);
+			System.out.println(curr.getBoxName());
 		}
 	}
 	//Maybe include thread info here to eliminate the need to iterate. 
@@ -128,7 +125,7 @@ public class Inventory{
 		return returned;
 
 	}
-	public String put(String name, Double concentration, String boxname){
+	public String put(String name, Double concentration, String boxname) {
 		//return location placed
 		Box currplace = nametobox.get(boxname);
 		//box itself should have a put method that handles the internals of changing that box's data
@@ -156,7 +153,8 @@ public class Inventory{
 			StringBuilder clone = new StringBuilder();
 
 			//header
-			data.append(">name").append("\t").append(box.getBoxName().toUpperCase()).append("\n");
+			System.out.println(box.getBoxName());
+			data.append(">name").append("\t").append(box.getBoxName()).append("\n");
 			data.append(">description").append("\t").append(box.getBoxDescription()).append("\n");
 			data.append(">location").append("\t").append(box.getLabLocation()).append("\n");
 			data.append(">plate_type").append("\t").append("cardboard box").append("\n");
@@ -234,7 +232,6 @@ public class Inventory{
 				host.append("\n");
 				antibiotic.append("\n");
 				clone.append("\n");
-
 			}
 			if (!labels.toString().matches("[\t\n0-9]+")) {
 				data.append(">>label").append("\t").append(columns).append("\n");
@@ -268,12 +265,11 @@ public class Inventory{
 				data.append(">>note").append("\t").append(columns).append("\n");
 				data.append(note.toString());
 			}
-			System.out.println(data.toString());
-			File file = new File("/Users/sylviaillouz/Desktop/bioe134/constructionfile-and-protocol-demo-sylviaillouz/Proj4/BioE134Proj4/Proj4Files/inventory/boxA.txt");
-			FileWriter rewrite = new FileWriter(file, false);
-			rewrite.write(data.toString());
-			rewrite.close();
-			break;
+			//System.out.println(data.toString());
+			//File file = new File("/Users/sylviaillouz/Desktop/bioe134/constructionfile-and-protocol-demo-sylviaillouz/Proj4/BioE134Proj4/src/org/ucb/c5/Inventory/Proj4Files/inventory/dummyfile.txt");
+			//FileWriter rewrite = new FileWriter(file, false);
+			//rewrite.write(data.toString());
+			//rewrite.close();
 		}
 
 	}
@@ -299,9 +295,9 @@ public class Inventory{
 		String oligo = "cadA pcrs";
 		Double concen = 1.0;
 		SimpleEntry<String, String> loc = in.get(oligo, concen);
+		System.out.println(loc);
 		String loc23 = in.put("Arjun", 10.0, "boxO");
-		System.out.println(loc.getKey());
-		System.out.println(loc.getValue());
-		in.write();
+		System.out.println(loc);
+		//in.write();
 	}
 }
