@@ -10,12 +10,10 @@ public class PCRSheetGenerator {
     }
 
     public static String run(List<Step> steps, Inventory inventory, String thread) throws Exception {
-        int current_sample_num = 0;
-        
         StringBuilder samples = new StringBuilder();
-        samples.append("samples: \n label\tprimer1\tprimer2\ttemplate\tproduct\n");
+        samples.append("samples: \nlabel\tprimer1\tprimer2\ttemplate\tproduct\n");
         StringBuilder source = new StringBuilder();
-        source.append("source: \n  name\tlocation\tnote\n");
+        source.append("source: \nname\tlocation\tnote\n");
         StringBuilder destination = new StringBuilder();
         destination.append("destination:");
 
@@ -25,9 +23,9 @@ public class PCRSheetGenerator {
         //to ensure we are not creating multiple sources for the same reagent
         HashSet<String> usedReagents = new HashSet<>();
 
+        int current_sample_num = 1;
         for (Step step : steps) {
-            current_sample_num++;
-            String label = thread + Integer.toString(current_sample_num);
+            String label = thread + current_sample_num;
             PCR pcrstep = (PCR) step;
             String oligo1 = pcrstep.getOligo1();
             usedReagents.add(oligo1);
@@ -35,8 +33,8 @@ public class PCRSheetGenerator {
             usedReagents.add(oligo2);
             String template = pcrstep.getTemplate();
             usedReagents.add(template);
-            String product = pcrstep.getProduct();
-            
+            String product = String.format("%s-%s/%s", template, oligo1, pcrstep.getProduct());
+
             //creating separate strings for each heading within the PCRSheet
             samples.append(label).append("\t").append(oligo1).append("\t")
                     .append(oligo2).append("\t").append(template).append('\t').append(product).append("\n");
@@ -55,7 +53,7 @@ public class PCRSheetGenerator {
                 source.append(oligo2 + '\t' + inventory.get(oligo2).get(0), +'\t' +
                         inventory.get(oligo2).get(1) + '\n');
             }
-            destination.append("thermocycler" + "1b_placeholder\n");
+            destination.append("thermocycler" + "1A_placeholder\n");
             //will have to check if these are null to see if dilution is necessary
             String templateNote = inventory.get(template).get(1);
             String oligo1Note = inventory.get(oligo1).get(1);
@@ -79,7 +77,7 @@ public class PCRSheetGenerator {
                 dilutionDests.append(oligo2 + '\t' + oligo2Loc);
                 inventory.put(oligo1, oligo2Loc);
             }
-
+            current_sample_num++;
         }
         String PCRSheet = thread + " : PCR\n\n" + samples.toString() + '\n' + source.toString() + '\n' +
                 destination.toString() + '\n' + notes1.toString() + '\n' + dilutionDests.toString() + '\n';

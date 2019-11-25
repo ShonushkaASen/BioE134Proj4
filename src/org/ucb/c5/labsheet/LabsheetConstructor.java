@@ -3,7 +3,7 @@ package org.ucb.c5.labsheet;
 import org.ucb.c5.constructionfile.model.ConstructionFile;
 import org.ucb.c5.constructionfile.model.Operation;
 import org.ucb.c5.constructionfile.model.Step;
-import org.ucb.c5.inventory.Inventory;
+//import org.ucb.c5.inventory.Inventory;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -18,9 +18,8 @@ public class LabsheetConstructor {
     private HashMap<Operation, List<Step>> stepMap;
     private FileWriter fw;
     private Inventory inventory;
-    private String thread_val;
     private Thread thread;
-    
+
 
     public void initiate() throws Exception {
         inventory = new Inventory();
@@ -32,9 +31,7 @@ public class LabsheetConstructor {
     //creating multiple labSheets for the number of construction files in cfs
     public void run(List<ConstructionFile> cfs) throws Exception {
         //doing the same string creation operation for the number of labsheets (i.e. outputting one file for ALL operations)
-        thread_val = thread.get();
-        File file = new File("Desktop/construction.doc");
-        fw = new FileWriter(file);
+        String thread_val = thread.get().toString;
         ArrayList<String> labsheet = new ArrayList<>();
         for (ConstructionFile cf : cfs) {
             //populating a hashmap (e.g 'PCR' --> List<PCR>) that splits all steps of the same type
@@ -59,7 +56,7 @@ public class LabsheetConstructor {
                         break;
                     case pcr:
                         //PCRSheetGenerator takes in a list of PCR steps
-                        sheet = PCRSheetGenerator.run(steps, inventory, thread); //Map<String,String>;
+                        sheet = PCRSheetGenerator.run(steps, inventory, thread_val); //Map<String,String>;
 
                  //           PCR pcrstep = (PCR) step;
                         break;
@@ -72,26 +69,30 @@ public class LabsheetConstructor {
                     case cleanup:
                         break;
                     case transform:
-                        sheet = TransformSheetGenerator.run(steps, inventory, thread);
+                        sheet = TransformSheetGenerator.run(steps, inventory, thread_val);
                         labsheet.add(sheet);
-                        sheet = PlateSheetGenerator.run(steps, inventory, thread);
+                        sheet = PlateSheetGenerator.run(steps, inventory, thread_val);
                         labsheet.add(sheet);
                         sheet = PickSheetGenerator.run(steps, inventory, thread);
                         labsheet.add(sheet);
-                        sheet = MiniprepSheetGenerator.run(steps, inventory, thread);
+                        sheet = MiniprepSheetGenerator.run(steps, inventory, thread_val);
                         break;
                     default:
                         throw new Exception(op.toString() + "Operation not found to make sheet");
                 }
                 labsheet.add(sheet);
             }
-
-            fw.close();
+            writeSheetsToFile(labsheet);
         }
     }
 
-    private void writePCRSheet() {
-
+    private void writeSheetsToFile(ArrayList<String> labsheet) throws Exception {
+        File file = new File("Desktop/construction.doc");
+        fw = new FileWriter(file);
+        for (String sheet : labsheet) {
+            fw.write(sheet);
+        }
+        fw.close();
     }
-    
+
 }
