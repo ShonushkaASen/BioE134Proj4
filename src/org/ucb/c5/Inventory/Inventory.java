@@ -7,16 +7,12 @@ import java.util.AbstractMap.*;
 import org.ucb.c5.Inventory.Box;
 
 import java.io.File;
-<<<<<<< HEAD
-
-=======
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
->>>>>>> 66e517edf5d1094e028cf5e563cb72825e7f98e6
 import org.ucb.c5.Inventory.ParseBoxFile;
 
 /**
@@ -28,23 +24,17 @@ public class Inventory{
 	private HashMap<String, Box> nametobox;
 	public void initiate() throws Exception {
 		//Path to the folder containing all the files.
-<<<<<<< HEAD
-		File folder = new File("/Users/sylviaillouz/Desktop/bioe134/constructionfile-and-protocol-demo-sylviaillouz/Proj4/BioE134Proj4/Proj4Files/inventory");
-=======
+
 		Path folderpath = Paths.get("inventory");
 		File folder = new File("src/org/ucb/c5/Inventory/Proj4Files/inventory");
 		//Converts Files in folder to a list of folders to iterate through
->>>>>>> 66e517edf5d1094e028cf5e563cb72825e7f98e6
 		File[] listofboxes = folder.listFiles();
 		//Hashmap for easy look up of what box to put something in when storing a new item
 		nametobox = new HashMap();
 		boxes = new ArrayList<>();
-<<<<<<< HEAD
 		for(File file: listofboxes) {
-=======
 		//Loop iterates through all files and generates appropriate box classes for each using Sylvia's parser
-		for(File file: listofboxes){
->>>>>>> 66e517edf5d1094e028cf5e563cb72825e7f98e6
+
 			String filename = file.getName();
 			//Parser is re instantiated everytime, its a dirty fix but the real fix needs to be done to the parser code and how it initializes cariables
 			ParseBoxFile parser = new ParseBoxFile();
@@ -73,16 +63,13 @@ public class Inventory{
 		Box desired = null;
 		//this is just a null instantiation of the string that tell you if a dilution needs to be done or not
 		String part2 = new String("");
-		for(Box box: boxes){
-<<<<<<< HEAD
+		for (Box box : boxes) {
+				//checks if inventory contains the thing we want to look up
 			if (box.containsName(name)) {
-=======
-			//checks if inventory contains the thing we want to look up
-			if (box.containsName(name)){
->>>>>>> 66e517edf5d1094e028cf5e563cb72825e7f98e6
+
 				HashMap<Double, Location> loc = box.get(name);
 				//once we know the thing we want to look up exists in the inventory this checks if the concentration we want is also there
-				if (loc.containsKey(con)){
+				if (loc.containsKey(con)) {
 					currloc = loc.get(con);
 					lab_loc = box.getLabLocation();
 					desired = box;
@@ -93,30 +80,22 @@ public class Inventory{
 					currloc = loc.get(-1.0);
 					lab_loc = box.getLabLocation();
 					concentrations.remove(-1.0);
-<<<<<<< HEAD
 					if (concentrations.isEmpty()) {
 						//for now I am just going to print out these outputs... later on we can workout how we wanna handle these.
-=======
-					//checks if there are any concentrations available for this item
-					if (concentrations.isEmpty()){
-						//Lets you know if no concentration is available.
->>>>>>> 66e517edf5d1094e028cf5e563cb72825e7f98e6
+						//checks if there are any concentrations available for this item
+							//Lets you know if no concentration is available.
 						System.out.println("There were no documented concentrations for this object");
 						desired = box;
-						// -1 since that what we decided for those that have a null concentration
-					//finds easiest dilution
-					} else{
-<<<<<<< HEAD
-						for(Double curr: concentrations) {
-=======
-						//curr represents the current concentration the loop is looking at
-						//currloc represents the location of that concentration of whatever
-						//lab_loc represents where in the lab this concentration of something is
-						//desired represents the box within which this concentration of something is located
-						for(Double curr: concentrations){
->>>>>>> 66e517edf5d1094e028cf5e563cb72825e7f98e6
+							// -1 since that what we decided for those that have a null concentration
+							//finds easiest dilution
+					} else {
+						for (Double curr : concentrations) {
+							//curr represents the current concentration the loop is looking at
+							//currloc represents the location of that concentration of whatever
+							//lab_loc represents where in the lab this concentration of something is
+							//desired represents the box within which this concentration of something is located
 							//Concentration class should have a to Integer method
-							if (curr % con == 0){
+							if (curr % con == 0) {
 								currloc = loc.get(curr);
 								lab_loc = box.getLabLocation();
 								desired = box;
@@ -128,16 +107,16 @@ public class Inventory{
 							Double a = curr;
 							Double b = con;
 							//make a dilution object that higher levels can look for to output the below print statement
-							part2 = new String(a/b + " X solution of " + name + " needs to be made");
+							part2 = new String(a / b + " X solution of " + name + " needs to be made");
 						}
-						
 					}
-					
+
 				}
 			}
 			continue;
-		} 
-		if (currloc == null && lab_loc == null){
+		}
+
+		if (currloc == null && lab_loc == null) {
 			throw new Error("The thing you want does not exist in the inventory");
 		}
 		StringBuilder returnable = new StringBuilder();
@@ -147,6 +126,7 @@ public class Inventory{
 		String part1 = new String(returnable.toString());
 		SimpleEntry returned = new SimpleEntry(part1, part2);
 		return returned;
+
 	}
 	public String put(String name, Double concentration, String boxname){
 		//return location placed
@@ -297,11 +277,9 @@ public class Inventory{
 		}
 
 	}
-<<<<<<< HEAD
 
-=======
 	//converts what the parser spits out into human understandable rows
-	private String numbertorowconverter(Double row){
+	private String numbertorowconverter(Double row) {
 		HashMap<Double, String> conversion = new HashMap<>();
 		conversion.put(0.0, "A");
 		conversion.put(1.0, "B");
@@ -315,21 +293,13 @@ public class Inventory{
 		conversion.put(9.0, "J");
 		return conversion.get(row);
 	}
->>>>>>> 66e517edf5d1094e028cf5e563cb72825e7f98e6
 	public static void main(String[] args) throws Exception {
 		Inventory in = new Inventory();
 		in.initiate();
 		String oligo = "cadA pcrs";
 		Double concen = 1.0;
-<<<<<<< HEAD
-		in.write();
 		SimpleEntry<String, String> loc = in.get(oligo, concen);
-		String locat = in.put("arjun", 10.0, "A");
-		System.out.println(locat);
-=======
-		Pair<String, String> loc = in.get(oligo, concen);
 		String loc23 = in.put("Arjun", 10.0, "boxO");
->>>>>>> 66e517edf5d1094e028cf5e563cb72825e7f98e6
 		System.out.println(loc.getKey());
 		System.out.println(loc.getValue());
 		in.write();

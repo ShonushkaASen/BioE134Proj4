@@ -10,28 +10,19 @@ public class Box{
     private String labLocation;
     private String boxTemperature;
     private Queue<Location> emptySpots;
-<<<<<<< HEAD
-    private HashMap<String, HashMap<Double, Location>> everythings_loc;
+    private HashMap<String, HashMap<Double, Location>> nameToConcToLoc;
     private HashMap[][] boxGrid;
 
-    public Box (String name, String boxThread, String description, String labLocation, String temperature, Queue<Location> emptySpots, HashMap<String, HashMap<Double, Location>> everythings_loc, HashMap[][] boxGrid) {
-=======
-    private HashMap<String, HashMap<Double, Location>> mapOfNameToMapOfConcentrationToLocation;
+    public Box (String name, String boxThread, String description, String labLocation, String temperature, Queue<Location> emptySpots, HashMap<String, HashMap<Double, Location>> nameToConcToLoc, HashMap[][] boxGrid) {
 
-    public Box (String name, String boxThread, String description, String labLocation, String temperature, Queue<Location> emptySpots, HashMap<String, HashMap<Double, Location>> nameToConcentrationToLocation) {
->>>>>>> 66e517edf5d1094e028cf5e563cb72825e7f98e6
         this.boxName = name;
         this.boxDescription = description;
         this.boxThread = boxThread;
         this.labLocation = labLocation;
         this.boxTemperature = temperature;
         this.emptySpots = emptySpots;
-<<<<<<< HEAD
-        this.everythings_loc = everythings_loc;
+        this.nameToConcToLoc = nameToConcToLoc;
         this.boxGrid = boxGrid;
-=======
-        this.mapOfNameToMapOfConcentrationToLocation = nameToConcentrationToLocation;
->>>>>>> 66e517edf5d1094e028cf5e563cb72825e7f98e6
     }
 
     public String getBoxName() {
@@ -56,15 +47,15 @@ public class Box{
         return boxGrid;
     }
     public boolean containsName(String name){
-        return mapOfNameToMapOfConcentrationToLocation.containsKey(name);
+        return nameToConcToLoc.containsKey(name);
     }
     public void put(String name, Double conc){
         Location filled = emptySpots.remove();
         HashMap concentrationAndLocation = new HashMap<Double, Location>();
         concentrationAndLocation.put(conc, filled);
-        mapOfNameToMapOfConcentrationToLocation.put(name, concentrationAndLocation);
+        nameToConcToLoc.put(name, concentrationAndLocation);
     }
     public HashMap<Double, Location> get(String name){
-        return mapOfNameToMapOfConcentrationToLocation.get(name);
+        return nameToConcToLoc.get(name);
     }
 }

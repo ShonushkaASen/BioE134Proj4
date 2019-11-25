@@ -49,11 +49,7 @@ public class ParseBoxFile {
     public Box run(String box_file) throws Exception {
         // read the file and create a string containing all text
         //Path filePath = Paths.get("/Users/sylviaillouz/Desktop/bioe134/constructionfile-and-protocol-demo-sylviaillouz/Proj4Files/inventory/" + box_file + ".txt");
-<<<<<<< HEAD
-        String data = FileUtils.readFile("/Users/sylviaillouz/Desktop/bioe134/constructionfile-and-protocol-demo-sylviaillouz/Proj4Files/inventory/" + box_file);
-=======
         String data = FileUtils.readFile("src/org/ucb/c5/Inventory/Proj4Files/inventory/" + box_file);
->>>>>>> 66e517edf5d1094e028cf5e563cb72825e7f98e6
 
         //splitting text by >> characters that separate sections of the file based on an attribute (composition, concentration, label)
         String[] sections = data.split(">>");
