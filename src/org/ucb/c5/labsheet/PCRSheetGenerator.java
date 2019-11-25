@@ -56,25 +56,25 @@ public class PCRSheetGenerator {
             }
             destination.append("thermocycler" + "1A_placeholder\n");
             //will have to check if these are null to see if dilution is necessary
-            String templateNote = inventory.get(template, -1.0).getValue();
             String oligo1Note = inventory.get(oligo1, -1.0).getValue();
+            String templateNote = inventory.get(template, -1.0).getValue();
             String oligo2Note = inventory.get(oligo2, -1.0).getValue();
             if (!templateNote.equals("-1")) {
                 notes1.append(templateNote).append('\n');
                 //an inventory method that returns the next empty slot in the thread/box of interest
-                String templateLoc = inventory.put(template, -1.0, thread);
+                String templateLoc = inventory.put(template, -1.0, "box" + thread);
                 dilutionDests.append(template + '\t' + templateLoc);
                 inventory.put(template, -1.0, thread);
             }
             if (!oligo1Note.equals("-1")) {
                 notes1.append(oligo1Note).append('\n');
-                String oligo1Loc = inventory.put(oligo1, -1.0, thread);
+                String oligo1Loc = inventory.put(oligo1, -1.0, "box" + thread);
                 dilutionDests.append(oligo1 + '\t' + oligo1Loc);
                 inventory.put(oligo1, -1.0, thread);
             }
             if (!oligo2Note.equals("-1")) {
                 notes1.append(oligo2Note).append('\n');
-                String oligo2Loc = inventory.put(oligo2, -1.0, thread);
+                String oligo2Loc = inventory.put(oligo2, -1.0, "box" + thread);
                 dilutionDests.append(oligo2 + '\t' + oligo2Loc);
                 inventory.put(oligo1, -1.0, thread);
             }
