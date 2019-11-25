@@ -17,10 +17,18 @@ import org.ucb.c5.constructionfile.model.Acquisition;
 
 public class LabsheetConstructor {
 
-    private HashMap<Operation, List<Step>> stepMap;
+    private ArrayList<Step> stepList;
     private FileWriter fw;
     private Inventory inventory;
     private Thread thread;
+    
+    private List<String> LigationString;
+    private List<String> MiniprepString;
+    private List<String> PCRCleanupString;
+    private List<String> PCRString;
+    private List<String> PickString;
+    private List<String> PlateString;
+    private List<String> TransformString;
 
 
     public void initiate() throws Exception {
@@ -37,31 +45,20 @@ public class LabsheetConstructor {
         ArrayList<String> labsheet = new ArrayList<>();
         for (ConstructionFile cf : cfs) {
             //populating a hashmap (e.g 'PCR' --> List<PCR>) that splits all steps of the same type
-            stepMap = new HashMap<>();
             for (Step step : cf.getSteps()) {
-                Operation op = step.getOperation();
-                if (stepMap.containsKey(op)) {
-                    stepMap.get(op).add(step);
-                } else {
-                    ArrayList<Step> stepList = new ArrayList<>();
-                    stepList.add(step);
-                    stepMap.put(op, stepList);
-                }
+                stepList.add(step);
             }
 
-            for (Operation op : stepMap.keySet()) {
-                List<Step> steps = stepMap.get(op);
-                String sheet = null;
+            for (Step step : stepList) {
+                Operation op = step.getOperation();
                 switch(op) {
                     case acquire:
-                        for (Step step: steps) {
-                            Acquisition acquire = (Acquisition) step;
-                            inventory.put(acquire.getProduct(), -1.0, "box" + thread_val);
-                        }
+                        Acquisition acquire = (Acquisition) step;
+                        inventory.put(acquire.getProduct(), -1.0, "box" + thread_val);
                         break;
                     case pcr:
                         //PCRSheetGenerator takes in a list of PCR steps
-                        sheet = PCRSheetGenerator.run(steps, inventory, thread_val); //Map<String,String>;
+                        PCRString = PCRSheetGenerator.run(step, inventory, thread_val); //Map<String,String>;
 
                  //           PCR pcrstep = (PCR) step;
                         break;
