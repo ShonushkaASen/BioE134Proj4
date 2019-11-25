@@ -296,8 +296,8 @@ public class Inventory {
 		Double concen = 1.0;
 		SimpleEntry<String, String> loc = in.get(oligo, concen);
 		System.out.println(loc);
-		String loc23 = in.put("Arjun", 10.0, "boxO");
-		System.out.println(loc);
+		//String loc23 = in.put("Arjun", 10.0, "boxO");
+		//System.out.println(loc23);
 		//in.write();
 	}
 }
