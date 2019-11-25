@@ -1,5 +1,6 @@
 package org.ucb.c5.labsheet;
 
+import org.ucb.c5.Inventory.Inventory;
 import org.ucb.c5.constructionfile.model.PCR;
 import org.ucb.c5.constructionfile.model.Step;
 

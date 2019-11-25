@@ -1,9 +1,10 @@
 package org.ucb.c5.labsheet;
 
+import org.ucb.c5.Inventory.Inventory;
 import org.ucb.c5.constructionfile.model.ConstructionFile;
 import org.ucb.c5.constructionfile.model.Operation;
 import org.ucb.c5.constructionfile.model.Step;
-//import org.ucb.c5.inventory.Inventory;
+import org.ucb.c5.constructionfile.model.Thread;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -31,7 +32,7 @@ public class LabsheetConstructor {
     //creating multiple labSheets for the number of construction files in cfs
     public void run(List<ConstructionFile> cfs) throws Exception {
         //doing the same string creation operation for the number of labsheets (i.e. outputting one file for ALL operations)
-        String thread_val = thread.get().toString;
+        String thread_val = thread.get();
         ArrayList<String> labsheet = new ArrayList<>();
         for (ConstructionFile cf : cfs) {
             //populating a hashmap (e.g 'PCR' --> List<PCR>) that splits all steps of the same type
@@ -51,9 +52,6 @@ public class LabsheetConstructor {
                 List<Step> steps = stepMap.get(op);
                 String sheet = null;
                 switch(op) {
-                    case acquire:
-
-                        break;
                     case pcr:
                         //PCRSheetGenerator takes in a list of PCR steps
                         sheet = PCRSheetGenerator.run(steps, inventory, thread_val); //Map<String,String>;
@@ -63,6 +61,7 @@ public class LabsheetConstructor {
                     case digest:
                         break;
                     case ligate:
+                        sheet = LigationSheetGenerator.run(steps, inventory, thread_val);
                         break;
                     case assemble:
                         break;
@@ -73,8 +72,8 @@ public class LabsheetConstructor {
                         labsheet.add(sheet);
                         sheet = PlateSheetGenerator.run(steps, inventory, thread_val);
                         labsheet.add(sheet);
-                        sheet = PickSheetGenerator.run(steps, inventory, thread);
-                        labsheet.add(sheet);
+//                        sheet = PickSheetGenerator.run(steps, inventory, thread_val);
+//                        labsheet.add(sheet);
                         sheet = MiniprepSheetGenerator.run(steps, inventory, thread_val);
                         break;
                     default:
@@ -90,7 +89,7 @@ public class LabsheetConstructor {
         File file = new File("Desktop/construction.doc");
         fw = new FileWriter(file);
         for (String sheet : labsheet) {
-            fw.write(sheet);
+            fw.write(sheet + '\f');
         }
         fw.close();
     }

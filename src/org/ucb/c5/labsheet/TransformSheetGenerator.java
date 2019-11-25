@@ -1,8 +1,8 @@
 package org.ucb.c5.labsheet;
 
+import org.ucb.c5.Inventory.Inventory;
 import org.ucb.c5.constructionfile.model.Step;
 import org.ucb.c5.constructionfile.model.Transformation;
-//import org.ucb.c5.inventory.Inventory;
 
 import java.util.List;
 

@@ -1,7 +1,8 @@
 package org.ucb.c5.labsheet;
 
-import Inventory;
 import java.util.List;
+
+import org.ucb.c5.Inventory.Inventory;
 import org.ucb.c5.constructionfile.model.Ligation;
 import org.ucb.c5.constructionfile.model.Step;
 
