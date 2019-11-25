@@ -1,7 +1,9 @@
 package org.ucb.c5.labsheet;
 
+import org.ucb.c5.constructionfile.model.Assembly;
 import org.ucb.c5.constructionfile.model.Step;
 import org.ucb.c5.constructionfile.model.Transformation;
+import org.ucb.c5.constructionfile.model.Inventory;
 
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class AssembleSheetGenerator {
             source.append(dna).append("\t").append(location).append("\n").append("\n");
             fragments.append(dna + ",");
 
-            Assembly assembly = (Assembly)step;
+            Assembly assembly = (Assembly) step;
 
             if (current_sample_num == 1) {
                 product.append(assembly.getProduct());
