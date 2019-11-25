@@ -1,34 +1,35 @@
 package org.ucb.c5.labsheet;
 
+import Inventory;
+import java.util.List;
 import org.ucb.c5.constructionfile.model.Ligation;
 import org.ucb.c5.constructionfile.model.Step;
 
-import java.util.List;
-
 public class LigationSheetGenerator {
-
     public void initiate() throws Exception {
 
     }
-
-    public String run(List<Step> steps,  String thread) throws Exception {
+    
+    public static String run(List<Step> steps, Inventory inventory, String thread) throws Exception {
+        int current_sample_num = 0;
         StringBuilder samples = new StringBuilder();
-        samples.append("samples: \nlabel\tdigest\tsource\tproduct\n");
+        StringBuilder reaction = new StringBuilder();
         StringBuilder destination = new StringBuilder();
-        destination.append("destination:");
-
-        int currentSampleNum = 1;
+        samples.append("samples: \n label\tdigest\tsource\tproduct\n");
+        reaction.append("reaction: \n7.5µL ddH2O\n1µL T4 DNA Ligase Buffer\n1µL DNA\n0.5µL T4 DNA Ligase\n");
+        destination.append("destination: thermocycler_placeholder\n");
+        
         for (Step step : steps) {
-            String label = thread + currentSampleNum;
+            current_sample_num++;
+            String label = thread + Integer.toString(current_sample_num);
+            String digest = label + "d";
             Ligation ligation = (Ligation) step;
-            String product = String.format("oligo2-oligo1/%s", ligation.getProduct());
+            //String source = inventory.get(transform.getProduct());
+            String product = ligation.getProduct() + "/lig";
 
-            samples.append(label + "\t").append(label + "d\t").append("box" + thread + "/letter_placeholder\t")
-                    .append(product);
-
-            currentSampleNum++;
+            //to get locations, the put() method of inventory should return the location
+            samples.append(label).append("\t").append(digest).append("\t").append("source_placeholder").append("\t").append(product).append("\n");
         }
-
-        return samples.toString() + destination;
+        return reaction.toString() + "\n" + samples.toString() + "\n" + destination.toString();
     }
 }
