@@ -27,9 +27,9 @@
 9									
 									
 >>concentration	A	B	C	D	E	F	G	H	I
-1				10 uM					10 uM
-2				10 uM					10 uM
-3				10 uM					10 uM
+1									10 uM
+2									10 uM
+3									10 uM
 4									
 5									
 6									
