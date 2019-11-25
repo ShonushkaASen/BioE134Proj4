@@ -56,8 +56,8 @@ public class PCRSheetGenerator {
             }
             destination.append("thermocycler" + "1A_placeholder\n");
             //will have to check if these are null to see if dilution is necessary
-            String templateNote = inventory.get(template, -1.0).getValue();
             String oligo1Note = inventory.get(oligo1, -1.0).getValue();
+            String templateNote = inventory.get(template, -1.0).getValue();
             String oligo2Note = inventory.get(oligo2, -1.0).getValue();
             if (!templateNote.equals("-1")) {
                 notes1.append(templateNote).append('\n');

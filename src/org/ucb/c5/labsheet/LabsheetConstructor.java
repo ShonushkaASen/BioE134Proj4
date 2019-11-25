@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import org.ucb.c5.constructionfile.ParseConstructionFile;
+import org.ucb.c5.constructionfile.model.Acquisition;
 
 
 public class LabsheetConstructor {
@@ -52,6 +53,12 @@ public class LabsheetConstructor {
                 List<Step> steps = stepMap.get(op);
                 String sheet = null;
                 switch(op) {
+                    case acquire:
+                        for (Step step: steps) {
+                            Acquisition acquire = (Acquisition) step;
+                            inventory.put(acquire.getProduct(), -1.0, "box" + thread_val);
+                        }
+                        break;
                     case pcr:
                         //PCRSheetGenerator takes in a list of PCR steps
                         sheet = PCRSheetGenerator.run(steps, inventory, thread_val); //Map<String,String>;
@@ -77,7 +84,8 @@ public class LabsheetConstructor {
 //                        sheet = MiniprepSheetGenerator.run(steps, inventory, thread_val);
                         break;
                     default:
-                        throw new Exception(op.toString() + "Operation not found to make sheet");
+                        //throw new Exception(op.toString() + "Operation not found to make sheet");
+                        System.out.println("operation not found to make sheet");
                 }
                 labsheet.add(sheet);
             }
@@ -99,29 +107,15 @@ public class LabsheetConstructor {
         constructor.initiate();
         ParseConstructionFile parser = new ParseConstructionFile();
         
-        String data = ">Construction of synthon1\n"
-                + "acquire ca4240\n"
-                + "acquire ca4241\n"
-                + "acquire ca4263\n"
-                + "acquire ca4264\n"
-                + "acquire pBca9145\n"
-                + "\n"
-                + "//Synthesize the gene and cut\n"
-                + "pca ca4240,ca4241	(1423 bp, pca)\n"
-                + "pcr ca4240,ca4241 on pca	(1445 bp, ipcr)\n"
-                + "cleanup ipcr	(ipcrc)\n"
-                + "digest ipcrc with EcoRI,BamHI	(iDig)\n"
-                + "cleanup iDig	(ins)\n"
-                + "\n"
-                + "//Amplify the plasmid backbone and cut\n"
-                + "pcr ca4263,ca4264 on pBca9145	(2532 bp, vpcr)\n"
-                + "cleanup vpcr	(vpcrc)\n"
-                + "digest vpcrc with EcoRI,BamHI,DpnI	(vDig)\n"
-                + "cleanup vDig	(vec)\n"
-                + "\n"
-                + "//Ligate and transform\n"
-                + "ligate ins,vec	(lig)\n"
-                + "transform lig	(DH10B, Spec)";
+        String data = ">Construction of pTarget-cscB1\n" +
+            "acquire oligo cscB1,pTargRev\n" +
+            "acquire plasmid pTargetF\n" +
+            "pcr cscB1,pTargRev on pTargetF	(3927 bp, ipcr)\n" +
+            "cleanup ipcr	(pcrpdt)\n" +
+            "digest pcrpdt with SpeI,DpnI	(spedig)\n" +
+            "cleanup spedig	(dig)\n" +
+            "ligate dig	(lig)\n" +
+            "transform lig	(Mach1, Spec)";
         
         ConstructionFile cf = parser.run(data);
         List<ConstructionFile> list = new ArrayList<>();
