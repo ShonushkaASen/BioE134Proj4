@@ -13,7 +13,7 @@ import org.ucb.c5.Inventory.ParseBoxFile;
 
 public class Inventory{
 	private List<Box> boxes;
-	private HashMap<String, Box> threadtobox;
+	private HashMap<String, Box> nametobox;
 	public void initiate() throws Exception {
 		//Path to the folder containing all the files.
 		Path folderpath = Paths.get("inventory");
@@ -21,7 +21,7 @@ public class Inventory{
 		//Converts Files in folder to a list of folders to iterate through
 		File[] listofboxes = folder.listFiles();
 		//Hashmap for easy look up of what box to put something in when storing a new item
-		threadtobox = new HashMap();
+		nametobox = new HashMap();
 		boxes = new ArrayList<>();
 		//Loop iterates through all files and generates appropriate box classes for each using Sylvia's parser
 		for(File file: listofboxes){
@@ -36,8 +36,8 @@ public class Inventory{
 			//current boc being generated
 			Box curr = parser.run(filename);
 			//We need the box's thread attribute in a seperate class
-			String currthrd = curr.getBoxThread();
-			threadtobox.put(currthrd, curr);
+			String currname = curr.getBoxName();
+			nametobox.put(currname,curr);
 			//all boxes are then stored in a list for later look up in the inventory.
 			boxes.add(curr);
 		}
@@ -115,9 +115,9 @@ public class Inventory{
 		Pair returned = new Pair(part1, part2);
 		return returned;
 	}
-	public String put(String name, Double concentration, String currthrd){
+	public String put(String name, Double concentration, String boxname){
 		//return location placed
-		Box currplace = threadtobox.get(currthrd);
+		Box currplace = nametobox.get(boxname);
 		//box itself should have a put method that handles the internals of changing that box's data
 		currplace.put(name, concentration);
 		Pair<String, String> loc = get(name, concentration);
@@ -150,6 +150,7 @@ public class Inventory{
 		String oligo = "cadA pcrs";
 		Double concen = 1.0;
 		Pair<String, String> loc = in.get(oligo, concen);
+		String loc23 = in.put("Arjun", 10.0, "boxO");
 		System.out.println(loc.getKey());
 		System.out.println(loc.getValue());
 	}
