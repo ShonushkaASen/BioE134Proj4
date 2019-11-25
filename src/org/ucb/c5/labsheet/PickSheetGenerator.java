@@ -4,6 +4,7 @@ import org.ucb.c5.constructionfile.model.Step;
 import org.ucb.c5.constructionfile.model.Transformation;
 
 import java.util.List;
+import org.ucb.c5.Inventory.Inventory;
 
 public class PickSheetGenerator {
 

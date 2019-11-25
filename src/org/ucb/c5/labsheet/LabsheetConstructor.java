@@ -10,8 +10,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
+import org.ucb.c5.constructionfile.ParseConstructionFile;
 
 
 public class LabsheetConstructor {
@@ -61,20 +61,20 @@ public class LabsheetConstructor {
                     case digest:
                         break;
                     case ligate:
-                        sheet = LigationSheetGenerator.run(steps, inventory, thread_val);
-                        break;
+//                        sheet = LigationSheetGenerator.run(steps, inventory, thread_val);
+//                        break;
                     case assemble:
                         break;
                     case cleanup:
                         break;
                     case transform:
-                        sheet = TransformSheetGenerator.run(steps, inventory, thread_val);
-                        labsheet.add(sheet);
-                        sheet = PlateSheetGenerator.run(steps, inventory, thread_val);
-                        labsheet.add(sheet);
-//                        sheet = PickSheetGenerator.run(steps, inventory, thread_val);
+//                        sheet = TransformSheetGenerator.run(steps, inventory, thread_val);
 //                        labsheet.add(sheet);
-                        sheet = MiniprepSheetGenerator.run(steps, inventory, thread_val);
+//                        sheet = PlateSheetGenerator.run(steps, inventory, thread_val);
+//                        labsheet.add(sheet);
+////                        sheet = PickSheetGenerator.run(steps, inventory, thread_val);
+////                        labsheet.add(sheet);
+//                        sheet = MiniprepSheetGenerator.run(steps, inventory, thread_val);
                         break;
                     default:
                         throw new Exception(op.toString() + "Operation not found to make sheet");
@@ -92,6 +92,41 @@ public class LabsheetConstructor {
             fw.write(sheet + '\f');
         }
         fw.close();
+    }
+    
+    public static void main(String[] args) throws Exception {
+        LabsheetConstructor constructor = new LabsheetConstructor();
+        constructor.initiate();
+        ParseConstructionFile parser = new ParseConstructionFile();
+        
+        String data = ">Construction of synthon1\n"
+                + "acquire ca4240\n"
+                + "acquire ca4241\n"
+                + "acquire ca4263\n"
+                + "acquire ca4264\n"
+                + "acquire pBca9145\n"
+                + "\n"
+                + "//Synthesize the gene and cut\n"
+                + "pca ca4240,ca4241	(1423 bp, pca)\n"
+                + "pcr ca4240,ca4241 on pca	(1445 bp, ipcr)\n"
+                + "cleanup ipcr	(ipcrc)\n"
+                + "digest ipcrc with EcoRI,BamHI	(iDig)\n"
+                + "cleanup iDig	(ins)\n"
+                + "\n"
+                + "//Amplify the plasmid backbone and cut\n"
+                + "pcr ca4263,ca4264 on pBca9145	(2532 bp, vpcr)\n"
+                + "cleanup vpcr	(vpcrc)\n"
+                + "digest vpcrc with EcoRI,BamHI,DpnI	(vDig)\n"
+                + "cleanup vDig	(vec)\n"
+                + "\n"
+                + "//Ligate and transform\n"
+                + "ligate ins,vec	(lig)\n"
+                + "transform lig	(DH10B, Spec)";
+        
+        ConstructionFile cf = parser.run(data);
+        List<ConstructionFile> list = new ArrayList<>();
+        list.add(cf);
+        constructor.run(list);
     }
 
 }

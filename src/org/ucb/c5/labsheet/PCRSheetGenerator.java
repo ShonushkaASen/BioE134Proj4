@@ -43,40 +43,40 @@ public class PCRSheetGenerator {
             //for .get(0) we're assuming that inventory.get() return a Pair<string,string> where
             //the first string is the location and the second string would be the dilution note if needed.
             if (!usedReagents.contains(template)) {
-                source.append(template + '\t' + inventory.get(template).get(0), +'\t' +
-                        inventory.get(template).get(1) + '\n');
+                source.append(template + '\t' + inventory.get(template, -1.0).getKey() +'\t' +
+                        inventory.get(template, -1.0).getValue() + '\n');
             }
             if (!usedReagents.contains(oligo1)) {
-                source.append(oligo1 + '\t' + inventory.get(oligo1).get(0), +'\t' +
-                        inventory.get(oligo1).get(1) + '\n');
+                source.append(oligo1 + '\t' + inventory.get(oligo1, -1.0).getKey() +'\t' +
+                        inventory.get(oligo1, -1.0).getValue() + '\n');
             }
             if (!usedReagents.contains(oligo2)) {
-                source.append(oligo2 + '\t' + inventory.get(oligo2).get(0), +'\t' +
-                        inventory.get(oligo2).get(1) + '\n');
+                source.append(oligo2 + '\t' + inventory.get(oligo2, -1.0).getKey() +'\t' +
+                        inventory.get(oligo2, -1.0).getValue() + '\n');
             }
             destination.append("thermocycler" + "1A_placeholder\n");
             //will have to check if these are null to see if dilution is necessary
-            String templateNote = inventory.get(template).get(1);
-            String oligo1Note = inventory.get(oligo1).get(1);
-            String oligo2Note = inventory.get(oligo2).get(1);
+            String templateNote = inventory.get(template, -1.0).getValue();
+            String oligo1Note = inventory.get(oligo1, -1.0).getValue();
+            String oligo2Note = inventory.get(oligo2, -1.0).getValue();
             if (!templateNote.equals("-1")) {
                 notes1.append(templateNote).append('\n');
                 //an inventory method that returns the next empty slot in the thread/box of interest
-                //Location templateLoc = inventory.getNext();
+                String templateLoc = inventory.put(template, -1.0, thread);
                 dilutionDests.append(template + '\t' + templateLoc);
-                inventory.put(template, templateLoc);
+                inventory.put(template, -1.0, thread);
             }
             if (!oligo1Note.equals("-1")) {
                 notes1.append(oligo1Note).append('\n');
-                //Location oligo1Loc = inventory.getNext();
+                String oligo1Loc = inventory.put(oligo1, -1.0, thread);
                 dilutionDests.append(oligo1 + '\t' + oligo1Loc);
-                inventory.put(oligo1, oligo1Loc);
+                inventory.put(oligo1, -1.0, thread);
             }
             if (!oligo2Note.equals("-1")) {
                 notes1.append(oligo2Note).append('\n');
-                //Location oligo2Loc = inventory.getNext();
+                String oligo2Loc = inventory.put(oligo2, -1.0, thread);
                 dilutionDests.append(oligo2 + '\t' + oligo2Loc);
-                inventory.put(oligo1, oligo2Loc);
+                inventory.put(oligo1, -1.0, thread);
             }
             current_sample_num++;
         }
