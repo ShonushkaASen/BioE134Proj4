@@ -16,7 +16,7 @@ public class PickSheetGenerator {
 
     }
 
-    public static List<String> run(Step step, Inventory inventory, String thread, List<String> currStrings) throws Exception {
+    public static List<String> run(Step step, Inventory inventory, String thread, List<String> currStrings, String header) throws Exception {
          if (currStrings == null) {
             current_sample_num = 0;
             samples = new StringBuilder();
