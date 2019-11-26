@@ -100,10 +100,11 @@ public class Inventory {
 								lab_loc = box.getLabLocation();
 								desired = box;
 							}
+							System.out.println("desired:" + box.getBoxName());
 							Double a = curr;
 							Double b = con;
 							//make a dilution object that higher levels can look for to output the below print statement
-							part2 = new String(a / b + " X solution of " + name + " needs to be made");
+							part2 = new String(a / b + " X dilution of " + name + " needs to be made");
 						}
 					}
 
@@ -264,7 +265,7 @@ public class Inventory {
 				data.append(note.toString());
 			}
 			File file = new File("/Users/sylviaillouz/Desktop/bioe134/constructionfile-and-protocol-demo-sylviaillouz/Proj4/BioE134Proj4/src/org/ucb/c5/Inventory/Proj4Files/OutputInventory/" + box.getBoxName() + "updated.txt");
-			FileWriter rewrite = new FileWriter(file, true);
+			FileWriter rewrite = new FileWriter(file, false);
 			rewrite.write(data.toString());
 			rewrite.close();
 		}
@@ -289,12 +290,12 @@ public class Inventory {
 	public static void main(String[] args) throws Exception {
 		Inventory in = new Inventory();
 		in.initiate();
-		String oligo = "cadA pcrs";
-		Double concen = 1.0;
+		String oligo = "yyBla-F";
+		Double concen = 5.0;
 		SimpleEntry<String, String> loc = in.get(oligo, concen);
-		System.out.println(loc);
-		String loc23 = in.put("Arjun", 10.0, "boxO");
-		System.out.println(loc23);
+		System.out.println("returned: " + loc);
+		//String loc23 = in.put("Arjun", 10.0, "boxO");
+		//System.out.println(loc23);
 		in.write();
 	}
 }
