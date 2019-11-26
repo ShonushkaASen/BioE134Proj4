@@ -10,6 +10,8 @@ import org.ucb.c5.constructionfile.model.*;
  */
 public class ParseConstructionFile {
 
+    String plasmidName;
+
     public void initiate() throws Exception {
     }
 
@@ -32,7 +34,7 @@ public class ParseConstructionFile {
         //Parse out the name of the plasmid
         String firstLine = lines[0];
         String[] spaced = firstLine.split("\\s+");
-        String plasmidName = spaced[1];
+        plasmidName = spaced[1];
 
         //Process each good line
         for (int i = 1; i < lines.length; i++) {
@@ -57,7 +59,7 @@ public class ParseConstructionFile {
             steps.add(parsedStep);
         }
 
-        return new ConstructionFile(steps);
+        return new ConstructionFile(steps, plasmidName);
     }
 
     private Step parseLine(Operation op, String[] spaces, String plasmidName) throws Exception {
@@ -208,5 +210,4 @@ public class ParseConstructionFile {
         String serial = serilaizer.run(constf);
         System.out.println(serial);
     }
-
 }

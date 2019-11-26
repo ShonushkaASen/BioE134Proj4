@@ -4,12 +4,11 @@ import org.ucb.c5.Inventory.Inventory;
 import org.ucb.c5.constructionfile.model.ConstructionFile;
 import org.ucb.c5.constructionfile.model.Operation;
 import org.ucb.c5.constructionfile.model.Step;
-import org.ucb.c5.constructionfile.model.Thread;
+//import org.ucb.c5.constructionfile.model.Thread;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import org.ucb.c5.constructionfile.ParseConstructionFile;
 import org.ucb.c5.constructionfile.model.Acquisition;
@@ -19,7 +18,7 @@ public class LabsheetConstructor {
 
     private FileWriter fw;
     private Inventory inventory;
-    private Thread thread;
+//    private Thread thread;
     
     private List<String> LigationString;
     private List<String> MiniprepString;
@@ -34,8 +33,8 @@ public class LabsheetConstructor {
     public void initiate() throws Exception {
         inventory = new Inventory();
         inventory.initiate();
-        thread = new Thread();
-        thread.initiate();
+//        thread = new Thread();
+//        thread.initiate();
         
     }
 
@@ -46,6 +45,7 @@ public class LabsheetConstructor {
         String thread_val = "B";
         ArrayList<String> labsheet = new ArrayList<>();
         for (ConstructionFile cf : cfs) {
+            String plasmidName = cf.getPlasmid();
             for (Step step : cf.getSteps()) {
                 Operation op = step.getOperation();
                 switch(op) {

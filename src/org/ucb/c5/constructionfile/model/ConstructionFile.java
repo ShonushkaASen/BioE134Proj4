@@ -10,13 +10,19 @@ import java.util.Set;
  */
 public class ConstructionFile {
     private final List<Step> steps;
+    private final String plasmidName;
 
-    public ConstructionFile(List<Step> steps) {
+    public ConstructionFile(List<Step> steps, String plasmidName) {
         this.steps = steps;
+        this.plasmidName = plasmidName;
     }
 
     public List<Step> getSteps() {
         return steps;
+    }
+
+    public String getPlasmid() {
+        return plasmidName;
     }
     
     public static void main(String[] args) {
@@ -55,7 +61,7 @@ public class ConstructionFile {
         steps.add(new Transformation("lig", "DH10B", Antibiotic.Spec, pdtName));
         
         //Instantiate the Construction File
-        ConstructionFile constf = new ConstructionFile(steps);
+        ConstructionFile constf = new ConstructionFile(steps, pdtName);
         
         //Print it out
         for(Step astep : constf.getSteps()) {
