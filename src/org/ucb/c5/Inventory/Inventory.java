@@ -109,7 +109,6 @@ public class Inventory {
 				}
 				break;
 			}
-			continue;
 		}
 
 		if (currloc == null && lab_loc == null) {
