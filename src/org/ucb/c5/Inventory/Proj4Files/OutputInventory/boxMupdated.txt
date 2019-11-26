@@ -1,0 +1,27 @@
+>name	boxM
+>description	140L Spring 2019 M thread tubes
+>location	minifreezer
+>plate_type	cardboard box
+>temperature	-20
+>>name	A	B	C	D	E	F	G	H	I	J
+1	dap1	dap2	dap3	dap4	dap5	dap6					
+2		M2p		M4p	M5p						
+3	dap1b										
+4	dap2b		pJBAG4-A	pJBAG4-B	pJBAG6-A	pJBAG6-B					
+5	dap7		M1B1	M1B2	M1B3	M1B4					
+6	dap8										
+7											
+8											
+9											
+10											
+>>concentration	A	B	C	D	E	F	G	H	I	J
+1	10 uM	10 uM	10 uM	10 uM	10 uM	10 uM					
+2											
+3	10 uM										
+4	10 uM										
+5	10 uM										
+6	10 uM										
+7											
+8											
+9											
+10											

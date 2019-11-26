@@ -1,0 +1,38 @@
+>name	boxP
+>description	140L thread P intermediate storage
+>location	minifridge
+>plate_type	cardboard box
+>temperature	-20
+>>label	A	B	C	D	E	F	G	H	I	J
+1	cadA-A	cadA-F	p1								
+2	cadA-B	cadA-R	p2								
+3	cadA-C		p3								
+4	cadA-D		p4								
+5			p0								
+6											
+7											
+8											
+9											
+10											
+>>composition	A	B	C	D	E	F	G	H	I	J
+1	genomic dna		cadA pcrs								
+2	genomic dna		cadA pcrs								
+3	genomic dna		cadA pcrs								
+4	genomic dna		cadA pcrs								
+5			cadA pcrs								
+6											
+7											
+8											
+9											
+10											
+>>concentration	A	B	C	D	E	F	G	H	I	J
+1		10 uM									
+2		10 uM									
+3											
+4											
+5											
+6											
+7											
+8											
+9											
+10											
