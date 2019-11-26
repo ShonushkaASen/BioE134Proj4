@@ -20,7 +20,7 @@ public class PCRCleanupSheetGenerator {
         if (currStrings == null) {
             current_sample_num = 0;
             source = new StringBuilder();
-            source.append("destination: thermocycler" + "1A_placeholder\n");
+            source.append(thread).append(": Zymo \n\n").append("source: thermocycler" + "1A_placeholder\n");
             samples = new StringBuilder();
             samples.append("samples: \nreaction\tlabel\telution_volume\tdestination\tproduct\n");
           

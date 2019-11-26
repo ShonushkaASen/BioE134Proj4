@@ -20,7 +20,7 @@ public class PlateSheetGenerator {
         if (currStrings == null) {
             current_sample_num = 0;
             samples = new StringBuilder();
-            samples.append("samples: \n label\tproduct\tstrain\tantibiotic\tincubate\n");
+            samples.append(thread).append(": Plate \n\n").append("samples: \nlabel\tproduct\tstrain\tantibiotic\tincubate\n");
         } else {
             samples = new StringBuilder(currStrings.get(0));
         }

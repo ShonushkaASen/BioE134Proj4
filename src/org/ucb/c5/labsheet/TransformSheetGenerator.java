@@ -27,7 +27,7 @@ public class TransformSheetGenerator {
             current_sample_num = 0;
             samples = new StringBuilder();
             samples.append("samples: \nlabel\tproduct\tstrain\tantibiotic\tincubate\n");
-            source = "source:" + "thermocycler_placeholder\n";
+            source = thread + ": Transform \n\n" + "source:" + "thermocycler_placeholder\n";
             
             rescue_required = "rescue_required: ";
             
