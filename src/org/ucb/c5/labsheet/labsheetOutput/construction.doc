@@ -1,0 +1,46 @@
+samples: 
+label	primer1	primer2	template	product
+B1	cscB1	pTargRev	pTargetF	pTargetF-cscB1/ipcr
+source: 
+name	location	note
+pTargetF	minifreezer/donner1/B/3.0	
+cscB1	minifreezer/oligos1/F/1.0	
+pTargRev	minifreezer/oligos1/B/1.0	
+destination: thermocycler1A_placeholder
+destination: thermocycler1A_placeholder
+samples: 
+reaction	label	elution_volume	destination	product
+B1	B1p	50µL	minifridge/boxB/A/7.0
+samples: 
+label	dna	source	product
+B1	B1p	minifridge/boxB/A/7.0	
+destination:destination: thermocycler1A_placeholder
+samples: 
+reaction	label	elution_volume	destination	product
+B1	B1p	50µL	minifridge/boxB/A/7.0
+B2	B2p	50µL	minifridge/boxB/A/8.0
+reaction: 
+7.5µL ddH2O
+1µL T4 DNA Ligase Buffer
+1µL DNA
+0.5µL T4 DNA Ligase
+samples: 
+ label	digest	source	product
+B1	B1d	minifridge/boxB/A/8.0	
+destination: thermocycler_placeholder
+source:thermocycler_placeholder
+samples: 
+label	product	strain	antibiotic	incubate
+B1	oligo2-oligo1/pTarget-cscB1	Mach1	Spec	incubate_placeholder
+rescue_required: yes
+samples: 
+ label	product	strain	antibiotic	incubate
+B1	pTarget-cscB1	Mach1	Spec	incubate_placeholder
+samples: 
+ source	product	strain	antibiotic	incubate	number	labels
+B1	pTarget-cscB1	Mach1	Spec	incubate_placeholder	2	B1A, B1B
+samples: 
+ culture	label	location
+B1A	pTarget-cscB1-A	location_placeholder
+B1B	pTarget-cscB1-B	location_placeholder
+
