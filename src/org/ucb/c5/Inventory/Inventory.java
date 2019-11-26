@@ -28,13 +28,14 @@ public class Inventory {
 		//Hashmap for easy look up of what box to put something in when storing a new item
 		nametobox = new HashMap();
 		boxes = new ArrayList<>();
+                ParseBoxFile parser = new ParseBoxFile();
+                parser.initiate();
 		for (File file: listofboxes) {
 		//Loop iterates through all files and generates appropriate box classes for each using Sylvia's parser
 
 			String filename = file.getName();
 			//Parser is re instantiated everytime, its a dirty fix but the real fix needs to be done to the parser code and how it initializes cariables
-			ParseBoxFile parser = new ParseBoxFile();
-			parser.initiate();
+			
 			//Need to skip the .DS file, ultimately needs to be changed to a regex expression that recognizes and discards file names that start with a dot
 			if(filename.contains(".DS")) {
 				continue;
@@ -127,9 +128,8 @@ public class Inventory {
 		//return location placed
 		Box currplace = nametobox.get(boxname);
 		//box itself should have a put method that handles the internals of changing that box's data
-		currplace.put(name, concentration);
-		SimpleEntry<String, String> loc = get(name, concentration);
-		return loc.getKey();
+		Location placeput = currplace.put(name, concentration);
+		return currplace.getBoxName() + " " + numbertorowconverter(Double.parseDouble(placeput.getRow())) + "/" + (Double.parseDouble(placeput.getCol()));
 	}
 
 	 //recreation of box tab deliniated text files after inventory updated (post experiment)

@@ -7,6 +7,7 @@ import java.util.*;
 /**
  *
  * @author Sylvia Illouz
+ * @author Arjun Chandran (fixed it such that we only need to instantiate it once in inventory.)
  * This parser takes tab deliniated text files for boxes in the wet lab and using their data, populates box Objects
  * Each box object has a bunch of meta data (temperature, thread, etc), a map that makes retrieval of location easy,
  * and contains a queue of all open spots in the box (meaning that there is no current composition present at that
@@ -14,25 +15,9 @@ import java.util.*;
  */
 
 public class ParseBoxFile {
-    public ParseBoxFile() {
-
-    }
     HashMap<String, Integer> alphabet;
-    private HashMap[][] boxGrid;
-    private String box_name;
-    private String thread;
-    private String description;
-    private String lab_location;
-    private String temperature;
-    private Queue<Location> emptySpots;
-    private HashMap<String, HashMap<Double, Location>> nameToConcToLoc;
-
     public void initiate() {
-        nameToConcToLoc = new HashMap();
-        boxGrid = new HashMap[10][10];
         alphabet = new HashMap();
-        nameToConcToLoc = new HashMap();
-        emptySpots = new ArrayDeque<>();
         alphabet.put("A", 1);
         alphabet.put("B", 2);
         alphabet.put("C", 3);
@@ -47,13 +32,23 @@ public class ParseBoxFile {
 
 
     public Box run(String box_file) throws Exception {
+
+        HashMap[][] boxGrid = new HashMap[10][10];
+        Queue<Location> emptySpots = new ArrayDeque<>();
+        HashMap<String, HashMap<Double, Location>> nameToConcToLoc = new HashMap<>();
         // read the file and create a string containing all text
         //Path filePath = Paths.get("/Users/sylviaillouz/Desktop/bioe134/constructionfile-and-protocol-demo-sylviaillouz/Proj4Files/inventory/" + box_file + ".txt");
         String data = FileUtils.readFile("src/org/ucb/c5/Inventory/Proj4Files/inventory/" + box_file);
 
         //splitting text by >> characters that separate sections of the file based on an attribute (composition, concentration, label)
         String[] sections = data.split(">>");
-        parseHeader(sections[0]);
+        HashMap<String, String> parseheadvars = new HashMap<>();
+        parseHeader(sections[0], parseheadvars);
+        String box_name = parseheadvars.get("box_name");
+        String thread = parseheadvars.get("thread");
+        String description = parseheadvars.get("desciption");
+        String lab_location = parseheadvars.get("lab_location");
+        String temperature = parseheadvars.get("temperature");
 
         //iterating through each section and populating a grid of hashmaps from attribute: value, that represents the contents of the lab box
         for (int i = 1; i < sections.length; i++) {
@@ -104,7 +99,7 @@ public class ParseBoxFile {
                     if ((boxGrid[row][col]) == null) {
                         emptySpots.add(new Location(row, col));
                     } else {
-                        populateNameMap(boxGrid[row][col], row, col);
+                        populateNameMap(boxGrid[row][col], row, col, nameToConcToLoc);
                     }
 
                 }
@@ -116,7 +111,7 @@ public class ParseBoxFile {
     }
 
     //this method takes each spot in the grid and its respective attribute map and populates the nameToConcToLoc map
-    private void populateNameMap(HashMap<String, String> curr_map, int row, int col) {
+    private void populateNameMap(HashMap<String, String> curr_map, int row, int col, HashMap nameToConcToLoc) {
         String name;
         Double concentration;
         if (curr_map.containsKey("composition")) {
@@ -136,7 +131,6 @@ public class ParseBoxFile {
             // if no concentration data available, concentration set to value -1
             concentration = -1.0;
         }
-
         Location location = new Location(row, col);
         HashMap<Double, Location> concToLoc = new HashMap();
         concToLoc.put(concentration, location);
@@ -145,9 +139,14 @@ public class ParseBoxFile {
     }
 
     //handles the special case of the first section of each box file containting general info about the box
-    private void parseHeader(String section) {
+    private void parseHeader(String section, HashMap<String, String> varsToBeSpitOut) {
         String[] lines = section.split("\\r|\\r?\\n");
         //iterate through header to populate box meta data
+        String box_name;
+        String thread;
+        String description;
+        String lab_location;
+        String temperature;
         for (int i = 0; i < lines.length; i = i + 1) {
             if (!(lines[i].startsWith(">"))) {
                 continue;
@@ -157,20 +156,25 @@ public class ParseBoxFile {
             String[] tabs = line.split("\t");
             if ((tabs[0].equals(">name")) || tabs[0].equals("<composition")) {
                 box_name = tabs[1];
-                if (box_name.contains("box")) {
-                    thread = Character.toString(box_name.charAt(3));
-                } else {
-                    thread = box_name;
-                }
-
+                varsToBeSpitOut.put("box_name", box_name);
+                thread = Character.toString(box_name.charAt(3));
+                varsToBeSpitOut.put("thread", thread);
             } else if (tabs[0].equals(">description")) {
                 description = tabs[1];
+                varsToBeSpitOut.put("description", description);
             } else if (tabs[0].equals(">location")) {
                 lab_location = tabs[1];
+                varsToBeSpitOut.put("lab_location", lab_location);
             } else if (tabs[0].equals(">temperature")) {
                 temperature = tabs[1];
+                varsToBeSpitOut.put("temperature", temperature);
             }
         }
+
+
+
+
+
     }
 
 
@@ -178,6 +182,5 @@ public class ParseBoxFile {
         ParseBoxFile parser = new ParseBoxFile();
         parser.initiate();
         Box box = parser.run("boxB.txt");
-        System.out.println(box.containsName("pTarget-cscR1-A"));
     }
 }

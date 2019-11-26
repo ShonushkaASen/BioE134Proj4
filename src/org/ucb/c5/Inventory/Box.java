@@ -49,7 +49,7 @@ public class Box{
     public boolean containsName(String name){
         return nameToConcToLoc.containsKey(name);
     }
-    public void put(String name, Double conc){
+    public Location put(String name, Double conc){
         Location filled = emptySpots.remove();
         HashMap concentrationAndLocation = new HashMap<Double, Location>();
         concentrationAndLocation.put(conc, filled);
@@ -61,6 +61,7 @@ public class Box{
         attributeMap.put("name", name);
         attributeMap.put("concentration", conc + " uM");
         boxGrid[row][col] = attributeMap;
+        return filled;
     }
     public HashMap<Double, Location> get(String name){
         return nameToConcToLoc.get(name);
