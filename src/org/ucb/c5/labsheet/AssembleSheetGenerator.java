@@ -21,7 +21,7 @@ public class AssembleSheetGenerator {
 
     }
 
-    public static List<String> run(Step step,  Inventory inventory, String thread, List<String> currStrings) throws Exception {
+    public static List<String> run(Step step,  Inventory inventory, String thread, List<String> currStrings, String header) throws Exception {
         if (currStrings == null) {
             current_sample_num = 0;
             source = new StringBuilder();
@@ -37,21 +37,26 @@ public class AssembleSheetGenerator {
             samples = new StringBuilder(currStrings.get(1));
             destination = new StringBuilder(currStrings.get(2));
         }
-        current_sample_num++;
-        
-        String dna = thread + current_sample_num + "p";
-        String label = thread;
-        fragments.append(dna).append(",");
-        String fragString = fragments.toString();
-        int fragStringlength = fragString.length();
-        
         Assembly assembly = (Assembly) step;
-        String product = "";
-        String location = inventory.get(product, -1.0).getKey();
-        source.append(dna + "\t").append(location).append("\n");
-        samples.append(label + "\t").append(fragString.substring(0, fragStringlength - 1) + "\t")
-            .append(assembly.getProduct() + "\n");
-            
+        
+        current_sample_num++;
+        String dna1 = thread + current_sample_num + "p";
+        current_sample_num++;
+        String dna2 = thread + current_sample_num + "p";
+        String label = thread;
+        String product = assembly.getProduct();
+
+        fragments.append(dna1).append(",").append(dna2);
+        String fragString = fragments.toString();
+        
+        String substrate1 = header + "/" + assembly.getFragments().get(0);
+        String substrate2 = header + "/" + assembly.getFragments().get(1);
+        String location1 = inventory.get(substrate1, -1.0).getKey();
+        String location2 = inventory.get(substrate2, -1.0).getKey();
+        
+        
+        source.append(dna1 + "\t").append(location1).append("\n").append(dna2 + "\t").append(location2 + "\n");
+        samples.append(label + "\t").append(fragString + "\t").append(product + "\n");
                 
         
         System.out.println("Assembly:");
