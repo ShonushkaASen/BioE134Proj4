@@ -19,7 +19,7 @@ public class TransformSheetGenerator {
 
     }
 
-    public static List<String> run(Step step, Inventory inventory, String thread, List<String> currStrings) throws Exception {
+    public static List<String> run(Step step, Inventory inventory, String thread, List<String> currStrings, String header) throws Exception {
         Transformation transform = (Transformation) step;
         String antibiotic = transform.getAntibiotic().toString();
 
@@ -46,11 +46,11 @@ public class TransformSheetGenerator {
         
 
         String label = thread + current_sample_num;
-        String product = String.format("oligo2-oligo1/%s", transform.getProduct()); //need to get oligo1 and oligo2
+        String product = transform.getProduct(); //need to get oligo1 and oligo2
         String strain = transform.getStrain();
 
         samples.append(label).append("\t").append(product).append("\t").append(strain).append("\t")
-                .append(antibiotic).append('\t').append("incubate_placeholder").append("\n");
+                .append(antibiotic).append('\t').append("37C").append("\n");
 
         System.out.println("Transformation:");
         System.out.println(samples.toString());

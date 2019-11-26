@@ -21,7 +21,7 @@ public class PCRSheetGenerator {
         //to ensure we are not creating multiple sources for the same reagent
     }
 
-    public static List<String> run(Step step, Inventory inventory, String thread, List<String> currStrings) throws Exception {
+    public static List<String> run(Step step, Inventory inventory, String thread, List<String> currStrings, String header) throws Exception {
          //creating separate strings for each heading within the PCRSheet
         if (currStrings == null) {
             current_sample_num = 0;
@@ -49,7 +49,7 @@ public class PCRSheetGenerator {
         String oligo1 = pcrstep.getOligo1();
         String oligo2 = pcrstep.getOligo2();
         String template = pcrstep.getTemplate();
-        String product = String.format("%s-%s/%s", template, oligo1, pcrstep.getProduct());
+        String product = String.format("%s/%s", header, pcrstep.getProduct());
         
         //putting all the above info into samples stringbuilder
         samples.append(label).append("\t").append(oligo1).append("\t")

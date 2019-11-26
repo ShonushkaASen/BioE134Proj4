@@ -18,7 +18,7 @@ public class LigationSheetGenerator {
 
     }
     
-    public static List<String> run(Step step, Inventory inventory, String thread, List<String> currStrings) throws Exception {
+    public static List<String> run(Step step, Inventory inventory, String thread, List<String> currStrings, String header) throws Exception {
         if (currStrings == null) {
             current_sample_num = 0;
             samples = new StringBuilder();
@@ -39,9 +39,9 @@ public class LigationSheetGenerator {
         String label = thread + Integer.toString(current_sample_num);
         String digest = label + "d";
         Ligation ligation = (Ligation) step;
-        //String product = ligation.getProduct() + "/lig";
-        String product = "";
-        String source = inventory.get(product, -1.0).getKey();
+        String product = header + "/lig";
+        String fragment = header + "/" + ligation.getFragments().get(0);
+        String source = inventory.get(fragment, -1.0).getKey();
 
         //to get locations, the put() method of inventory should return the location
         samples.append(label).append("\t").append(digest).append("\t").append(source).append("\t").append(product).append("\n");
