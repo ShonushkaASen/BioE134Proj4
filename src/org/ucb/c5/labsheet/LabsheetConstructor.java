@@ -96,7 +96,7 @@ public class LabsheetConstructor {
     }
 
     private void writeSheetsToFile() throws Exception {
-        File file = new File("..\\src\\org\\ucb\\c5\\labsheet\\labsheetOutput\\construction.doc");
+        File file = new File("C:\\Users\\sghan\\OneDrive\\Desktop\\Homework\\bioe134\\repo\\BioE134Proj4\\src\\org\\ucb\\c5\\labsheet\\labsheetOutput\\construction_new.doc");
         fw = new FileWriter(file);
         for (List<String> sheet : sheets) {
             for (String attribute : sheet) {
