@@ -4,7 +4,10 @@ import org.ucb.c5.Inventory.Inventory;
 import org.ucb.c5.constructionfile.model.ConstructionFile;
 import org.ucb.c5.constructionfile.model.Operation;
 import org.ucb.c5.constructionfile.model.Step;
+<<<<<<< HEAD
 import org.ucb.c5.constructionfile.model.Thread;
+=======
+>>>>>>> b0e61c5a218bcf58264f7f36a986099e01fd70b0
 
 import java.io.File;
 import java.io.FileWriter;
@@ -12,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.ucb.c5.constructionfile.ParseConstructionFile;
 import org.ucb.c5.constructionfile.model.Acquisition;
-
+//import org.ucb.c5.constructionfile.model.Thread;
 
 public class LabsheetConstructor {
 
@@ -28,13 +31,18 @@ public class LabsheetConstructor {
     private List<String> PlateString;
     private List<String> TransformString;
     private List<String> DigestionString;
+    private List<List<String>> sheets = new ArrayList<>();
 
 
     public void initiate() throws Exception {
         inventory = new Inventory();
         inventory.initiate();
         thread = new Thread();
+<<<<<<< HEAD
         thread.initiate();
+=======
+//        thread.initiate();
+>>>>>>> b0e61c5a218bcf58264f7f36a986099e01fd70b0
         
     }
 
@@ -56,6 +64,7 @@ public class LabsheetConstructor {
                         break;
                     case pcr:
                         //PCRSheetGenerator takes in a  PCR step
+<<<<<<< HEAD
                         PCRString = PCRSheetGenerator.run(step, inventory, thread_val, PCRString, plasmidName); 
                         break;
                     case digest:
@@ -63,10 +72,25 @@ public class LabsheetConstructor {
                         break;
                     case ligate:
                         LigationString = LigationSheetGenerator.run(step, inventory, thread_val, LigationString, plasmidName);
+=======
+                        PCRString = PCRSheetGenerator.run(step, inventory, thread_val, PCRString); //Map<String,String>;
+                        sheets.add(PCRString);
+                        break;
+                    case digest:
+                        DigestionString = DigestionSheetGenerator.run(step, inventory, thread_val, DigestionString);
+                        sheets.add(DigestionString);
+                        break;
+                    case ligate:
+                        LigationString = LigationSheetGenerator.run(step, inventory, thread_val, LigationString);
+                        sheets.add(LigationString);
+>>>>>>> b0e61c5a218bcf58264f7f36a986099e01fd70b0
                         break;
                     case assemble:
+                        // AssembleString = AssembleSheetGenerator.run(step, inventory, thread_val, AssembleString);
+                        // sheets.add(AssembleString);
                         break;
                     case cleanup:
+<<<<<<< HEAD
                         PCRCleanupString = PCRCleanupSheetGenerator.run(step, inventory, thread_val, PCRCleanupString, plasmidName);
                         break;
                     case transform:
@@ -74,21 +98,37 @@ public class LabsheetConstructor {
                         PlateString = PlateSheetGenerator.run(step, inventory, thread_val, PlateString, plasmidName);
                         PickString = PickSheetGenerator.run(step, inventory, thread_val, PickString, plasmidName);
                         MiniprepString = MiniprepSheetGenerator.run(step, inventory, thread_val, MiniprepString, plasmidName);
+=======
+                        PCRCleanupString = PCRCleanupSheetGenerator.run(step, inventory, thread_val, PCRCleanupString);
+                        sheets.add(PCRCleanupString);
+                        break;
+                    case transform:
+                        TransformString = TransformSheetGenerator.run(step, inventory, thread_val, TransformString);
+                        PlateString = PlateSheetGenerator.run(step, inventory, thread_val, PlateString);
+                        PickString = PickSheetGenerator.run(step, inventory, thread_val, PickString);
+                        MiniprepString = MiniprepSheetGenerator.run(step, inventory, thread_val, MiniprepString);
+                        sheets.add(TransformString);
+                        sheets.add(PlateString);
+                        sheets.add(PickString);
+                        sheets.add(MiniprepString);
+>>>>>>> b0e61c5a218bcf58264f7f36a986099e01fd70b0
                         break;
                     default:
                         //throw new Exception(op.toString() + "Operation not found to make sheet");
                         System.out.println("operation not found to make sheet");
                 }
             }
-            //writeSheetsToFile(labsheet);
+            writeSheetsToFile();
         }
     }
 
-    private void writeSheetsToFile(ArrayList<String> labsheet) throws Exception {
-        File file = new File("Desktop/construction.doc");
+    private void writeSheetsToFile() throws Exception {
+        File file = new File("C:\\Users\\katlyn\\berk\\bioe134\\proj4\\src\\org\\ucb\\c5\\labsheet\\labsheetOutput\\construction.doc");
         fw = new FileWriter(file);
-        for (String sheet : labsheet) {
-            fw.write(sheet + '\f');
+        for (List<String> sheet : sheets) {
+            for (String attribute : sheet) {
+                fw.write(attribute + "\f");
+            }
         }
         fw.close();
     }
