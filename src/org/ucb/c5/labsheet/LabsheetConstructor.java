@@ -58,15 +58,12 @@ public class LabsheetConstructor {
                     case pcr:
                         //PCRSheetGenerator takes in a  PCR step
                         PCRString = PCRSheetGenerator.run(step, inventory, thread_val, PCRString, plasmidName); //Map<String,String>;
-                        sheets.add(PCRString);
                         break;
                     case digest:
                         DigestionString = DigestionSheetGenerator.run(step, inventory, thread_val, DigestionString, plasmidName);
-                        sheets.add(DigestionString);
                         break;
                     case ligate:
                         LigationString = LigationSheetGenerator.run(step, inventory, thread_val, LigationString, plasmidName);
-                        sheets.add(LigationString);
                         break;
                     case assemble:
                          AssembleString = AssembleSheetGenerator.run(step, inventory, thread_val, AssembleString);
@@ -74,31 +71,37 @@ public class LabsheetConstructor {
                         break;
                     case cleanup:
                         PCRCleanupString = PCRCleanupSheetGenerator.run(step, inventory, thread_val, PCRCleanupString, plasmidName);
-                        sheets.add(PCRCleanupString);
                         break;
                     case transform:
                         TransformString = TransformSheetGenerator.run(step, inventory, thread_val, TransformString, plasmidName);
                         PlateString = PlateSheetGenerator.run(step, inventory, thread_val, PlateString, plasmidName);
                         PickString = PickSheetGenerator.run(step, inventory, thread_val, PickString, plasmidName);
                         MiniprepString = MiniprepSheetGenerator.run(step, inventory, thread_val, MiniprepString, plasmidName);
-                        sheets.add(TransformString);
-                        sheets.add(PlateString);
-                        sheets.add(PickString);
-                        sheets.add(MiniprepString);
                         break;
                     default:
                         //throw new Exception(op.toString() + "Operation not found to make sheet");
                         System.out.println("operation not found to make sheet");
                 }
             }
+            sheets.add(PCRString);
+            sheets.add(PCRCleanupString);
+            sheets.add(DigestionString);
+            sheets.add(LigationString);
+            sheets.add(TransformString);
+            sheets.add(PlateString);
+            sheets.add(PickString);
+            sheets.add(MiniprepString);
             writeSheetsToFile();
         }
     }
 
     private void writeSheetsToFile() throws Exception {
-        File file = new File("C:\\Users\\katlyn\\berk\\bioe134\\proj4\\src\\org\\ucb\\c5\\labsheet\\labsheetOutput\\construction.doc");
+        File file = new File("C:\\Users\\sghan\\OneDrive\\Desktop\\Homework\\bioe134\\repo\\BioE134Proj4\\src\\org\\ucb\\c5\\labsheet\\labsheetOutput\\construction_new.doc");
         fw = new FileWriter(file);
         for (List<String> sheet : sheets) {
+            if (sheet == null) {
+                continue;
+            }
             for (String attribute : sheet) {
                 fw.write(attribute + "\n");
             }

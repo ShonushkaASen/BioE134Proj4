@@ -27,7 +27,7 @@ public class PCRSheetGenerator {
             current_sample_num = 0;
             usedReagents = new HashSet<>();
             samples = new StringBuilder();
-            samples.append("samples: \nlabel\tprimer1\tprimer2\ttemplate\tproduct\n");
+            samples.append(thread).append(": PCR \n\n").append("samples: \nlabel\tprimer1\tprimer2\ttemplate\tproduct\n");
             source = new StringBuilder();
             source.append("source: \nname\tlocation\tnote\n");
             destination = new StringBuilder();

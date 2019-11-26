@@ -20,7 +20,7 @@ public class PickSheetGenerator {
          if (currStrings == null) {
             current_sample_num = 0;
             samples = new StringBuilder();
-            samples.append("samples: \n source\tproduct\tstrain\tantibiotic\tincubate\tnumber\tlabels\n");
+            samples.append(thread).append(": Pick \n\n").append("samples: \nsource\tproduct\tstrain\tantibiotic\tincubate\tnum\tlabels\n");
           
         } else {
             samples = new StringBuilder(currStrings.get(0));
@@ -39,7 +39,7 @@ public class PickSheetGenerator {
 
 
         samples.append(source).append("\t").append(product).append("\t").append(strain).append("\t")
-                .append(antibiotic).append('\t').append("incubate_placeholder").append("\t2").append("\t").append(label1)
+                .append(antibiotic).append('\t').append("37C").append("\t2").append("\t").append(label1)
                 .append(", ").append(label2).append("\n");
         
         System.out.println("Pick:");

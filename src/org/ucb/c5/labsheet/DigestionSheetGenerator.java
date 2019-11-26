@@ -22,9 +22,9 @@ public class DigestionSheetGenerator {
         if (currStrings == null) {
             current_sample_num = 0;
             samples = new StringBuilder();
-            samples.append("samples: \nlabel\tdna\tsource\tproduct\n");
+            samples.append(thread).append(": Digest \n\n").append("samples: \nlabel\tdna\tsource\tproduct\n");
             destination = new StringBuilder();
-            destination.append("destination:");
+            destination.append("destination: thermocycler_placeholder");
           
         } else {
             samples = new StringBuilder(currStrings.get(0));

@@ -19,7 +19,7 @@ public class MiniprepSheetGenerator {
         if (currStrings == null) {
             current_sample_num = 0;
             samples = new StringBuilder();
-            samples.append("samples: \n culture\tlabel\tlocation\n");
+            samples.append(thread).append(": Miniprep \n\n").append("samples: \nculture\tlabel\tlocation\n");
           
         } else {
             samples = new StringBuilder(currStrings.get(0));

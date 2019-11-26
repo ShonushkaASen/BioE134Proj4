@@ -24,8 +24,8 @@ public class LigationSheetGenerator {
             samples = new StringBuilder();
             reaction = new StringBuilder();
             destination = new StringBuilder();
-            samples.append("samples: \n label\tdigest\tsource\tproduct\n");
-            reaction.append("reaction: \n7.5µL ddH2O\n1µL T4 DNA Ligase Buffer\n1µL DNA\n0.5µL T4 DNA Ligase\n");
+            samples.append("samples: \nlabel\tdigest\tsource\tproduct\n");
+            reaction.append(thread).append(": Ligation \n\n").append("reaction: \n7.5µL ddH2O\n1µL T4 DNA Ligase Buffer\n1µL DNA\n0.5µL T4 DNA Ligase\n");
             destination.append("destination: thermocycler_placeholder\n");
           
         } else {
