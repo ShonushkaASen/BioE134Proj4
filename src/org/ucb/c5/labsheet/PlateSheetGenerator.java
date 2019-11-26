@@ -16,18 +16,16 @@ public class PlateSheetGenerator {
 
     }
     
-    public static List<String> run(Step step, Inventory inventory, String thread, List<String> currStrings) throws Exception {
+    public static List<String> run(Step step, Inventory inventory, String thread, List<String> currStrings, String header) throws Exception {
         if (currStrings == null) {
             current_sample_num = 0;
             samples = new StringBuilder();
             samples.append("samples: \n label\tproduct\tstrain\tantibiotic\tincubate\n");
-          
         } else {
             samples = new StringBuilder(currStrings.get(0));
         }
         current_sample_num++;
         
-    
         String label = thread + Integer.toString(current_sample_num);
         Transformation transform = (Transformation) step;
         String product = transform.getProduct();
@@ -35,7 +33,7 @@ public class PlateSheetGenerator {
         String antibiotic = transform.getAntibiotic().toString();
 
         samples.append(label).append("\t").append(product).append("\t").append(strain).append("\t")
-                .append(antibiotic).append('\t').append("incubate_placeholder").append("\n");
+                .append(antibiotic).append('\t').append("37C").append("\n");
        
         System.out.println("Plate:");
         System.out.println(samples.toString());

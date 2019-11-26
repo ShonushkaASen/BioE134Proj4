@@ -16,7 +16,7 @@ public class PCRCleanupSheetGenerator {
 
     }
     
-    public static List<String> run(Step step, Inventory inventory, String thread, List<String> currStrings) throws Exception {
+    public static List<String> run(Step step, Inventory inventory, String thread, List<String> currStrings, String header) throws Exception {
         if (currStrings == null) {
             current_sample_num = 0;
             source = new StringBuilder();
@@ -35,12 +35,12 @@ public class PCRCleanupSheetGenerator {
         String elution_volume = "50µL";
         //tricky part: add the product of the cleanup to the inventory, labeled in such a way that it's distinguishable
         //from other similar PCR operations, so that it may be found for later steps (like digestion or transformation)
-        String product = "";
+        String product = header + "/" + cleanup.getProduct();
         String destination = inventory.put(product, -1.0, "box" + thread);
      
 
         //to get locations, the put() method of inventory should return the location
-        samples.append(reaction).append("\t").append(label).append("\t").append(elution_volume).append("\t").append(destination).append("\n");
+        samples.append(reaction).append("\t").append(label).append("\t").append(elution_volume).append("\t").append(destination).append("\t").append(product).append("\n");
         System.out.println("PCRCleanup:");
         System.out.println(samples.toString());
         List<String> newCurrStrings = new ArrayList<String>(Arrays.asList(source.toString(), samples.toString()));

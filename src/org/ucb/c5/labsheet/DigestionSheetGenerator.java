@@ -18,7 +18,7 @@ public class DigestionSheetGenerator {
     }
 
 
-    public static List<String> run(Step step,  Inventory inventory, String thread, List<String> currStrings) throws Exception {
+    public static List<String> run(Step step,  Inventory inventory, String thread, List<String> currStrings, String header) throws Exception {
         if (currStrings == null) {
             current_sample_num = 0;
             samples = new StringBuilder();
@@ -34,10 +34,9 @@ public class DigestionSheetGenerator {
         
         String label = thread + current_sample_num;
         Digestion digestion = (Digestion) step;
-        //String product = String.format("oligo2-oligo1/%s", digestion.getProduct());
-        String product = "";
-        //String source = "box" + thread + "/" + thread + Integer.toString(current_sample_num);
-        String source = inventory.get(product, -1.0).getKey();
+        String product = header + "/" + digestion.getProduct();
+        String substrate = header + "/" + digestion.getSubstrate();
+        String source = inventory.get(substrate, -1.0).getKey();
         samples.append(label + "\t").append(label + "p\t").append(source + "\t").append(product + "\n");
         
         System.out.println("Digestion:");
