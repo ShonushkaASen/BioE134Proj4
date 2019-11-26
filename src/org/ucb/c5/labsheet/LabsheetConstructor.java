@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.ucb.c5.constructionfile.ParseConstructionFile;
 import org.ucb.c5.constructionfile.model.Acquisition;
-//import org.ucb.c5.constructionfile.model.Thread;
+import org.ucb.c5.constructionfile.model.Thread;
 
 public class LabsheetConstructor {
 
@@ -27,6 +27,7 @@ public class LabsheetConstructor {
     private List<String> PlateString;
     private List<String> TransformString;
     private List<String> DigestionString;
+    private List<String> AssembleString;
     private List<List<String>> sheets = new ArrayList<>();
 
 
@@ -34,15 +35,15 @@ public class LabsheetConstructor {
         inventory = new Inventory();
         inventory.initiate();
         thread = new Thread();
-//        thread.initiate();
+        thread.initiate();
 
     }
 
     //creating multiple labSheets for the number of construction files in cfs
     public void run(List<ConstructionFile> cfs) throws Exception {
         //doing the same string creation operation for the number of labsheets (i.e. outputting one file for ALL operations)
-        //String thread_val = thread.get();
-        String thread_val = "B";
+        String thread_val = thread.get();
+        //String thread_val = "B";
         ArrayList<String> labsheet = new ArrayList<>();
         for (ConstructionFile cf : cfs) {
             String plasmidName = cf.getPlasmid();
@@ -68,8 +69,8 @@ public class LabsheetConstructor {
                         sheets.add(LigationString);
                         break;
                     case assemble:
-                        // AssembleString = AssembleSheetGenerator.run(step, inventory, thread_val, AssembleString);
-                        // sheets.add(AssembleString);
+                         AssembleString = AssembleSheetGenerator.run(step, inventory, thread_val, AssembleString);
+                         sheets.add(AssembleString);
                         break;
                     case cleanup:
                         PCRCleanupString = PCRCleanupSheetGenerator.run(step, inventory, thread_val, PCRCleanupString, plasmidName);
