@@ -25,7 +25,7 @@ public class AssembleSheetGenerator {
         if (currStrings == null) {
             current_sample_num = 0;
             source = new StringBuilder();
-            source.append("source \n dna\tlocation\n");
+            source.append(thread + ": Assemble\n" + "source \n dna\tlocation\n");
             destination = new StringBuilder();
             destination.append("destination:");
             samples = new StringBuilder();
