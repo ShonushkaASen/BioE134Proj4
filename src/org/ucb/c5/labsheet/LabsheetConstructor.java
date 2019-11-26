@@ -96,12 +96,13 @@ public class LabsheetConstructor {
     }
 
     private void writeSheetsToFile() throws Exception {
-        File file = new File("C:\\Users\\sghan\\OneDrive\\Desktop\\Homework\\bioe134\\repo\\BioE134Proj4\\src\\org\\ucb\\c5\\labsheet\\labsheetOutput\\construction_new.doc");
+        File file = new File("C:\\Users\\katlyn\\berk\\bioe134\\proj4\\src\\org\\ucb\\c5\\labsheet\\labsheetOutput\\construction.doc");
         fw = new FileWriter(file);
         for (List<String> sheet : sheets) {
             for (String attribute : sheet) {
-                fw.write(attribute + "\f");
+                fw.write(attribute + "\n");
             }
+            fw.write("\f");
         }
         fw.close();
     }
