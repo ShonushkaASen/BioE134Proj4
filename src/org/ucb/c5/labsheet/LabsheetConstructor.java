@@ -4,7 +4,6 @@ import org.ucb.c5.Inventory.Inventory;
 import org.ucb.c5.constructionfile.model.ConstructionFile;
 import org.ucb.c5.constructionfile.model.Operation;
 import org.ucb.c5.constructionfile.model.Step;
-import org.ucb.c5.constructionfile.model.Thread;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -12,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.ucb.c5.constructionfile.ParseConstructionFile;
 import org.ucb.c5.constructionfile.model.Acquisition;
-
+//import org.ucb.c5.constructionfile.model.Thread;
 
 public class LabsheetConstructor {
 
@@ -35,7 +34,7 @@ public class LabsheetConstructor {
         inventory = new Inventory();
         inventory.initiate();
         thread = new Thread();
-        thread.initiate();
+//        thread.initiate();
         
     }
 
@@ -43,7 +42,7 @@ public class LabsheetConstructor {
     public void run(List<ConstructionFile> cfs) throws Exception {
         //doing the same string creation operation for the number of labsheets (i.e. outputting one file for ALL operations)
         //String thread_val = thread.get();
-        String thread_val = thread.get();
+        String thread_val = "B";
         ArrayList<String> labsheet = new ArrayList<>();
         for (ConstructionFile cf : cfs) {
             String plasmidName = cf.getPlasmid();
@@ -91,12 +90,12 @@ public class LabsheetConstructor {
                         System.out.println("operation not found to make sheet");
                 }
             }
-            //writeSheetsToFile();
+            writeSheetsToFile();
         }
     }
 
     private void writeSheetsToFile() throws Exception {
-        File file = new File("Desktop/construction.doc");
+        File file = new File("C:\\Users\\katlyn\\berk\\bioe134\\proj4\\src\\org\\ucb\\c5\\labsheet\\labsheetOutput\\construction.doc");
         fw = new FileWriter(file);
         for (List<String> sheet : sheets) {
             for (String attribute : sheet) {
