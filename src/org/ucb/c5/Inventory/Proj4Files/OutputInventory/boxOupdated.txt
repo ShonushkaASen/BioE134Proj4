@@ -1,0 +1,27 @@
+>name	boxO
+>description	140L O thread
+>location	minifreezer
+>plate_type	cardboard box
+>temperature	-20
+>>name	A	B	C	D	E	F	G	H	I	J
+1	pimar1	pimar2	pimar3	pimar4	pimar5	pimar6	pimar7	pimar8	Arjun	pim3-A	
+2	orfF1	nbackR0									
+3	orfF0b	O7b	ObA	ObB							
+4	orfF0c	O7c	OcA	OcB							
+5	orfF0d	O7d	OdA	OdB							
+6	orfFRO										
+7											
+8											
+9											
+10											
+>>concentration	A	B	C	D	E	F	G	H	I	J
+1	diluted 25x	diluted 25x	diluted 25x	diluted 25x	diluted 25x	diluted 25x	diluted 25x	diluted 25x	10.0 uM	diluted 25x	
+2	10 uM	10 uM									
+3	10 uM										
+4	10 uM										
+5	10 uM										
+6	10 uM										
+7											
+8											
+9											
+10											

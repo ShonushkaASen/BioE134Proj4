@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 >name	boxA
+=======
+>name	boxA								
+>>>>>>> inventory
 >description	140L thread A intermediate storage								
 >location	minifridge								
 >plate_type	cardboard_box								
@@ -35,4 +39,8 @@
 6									
 7									
 8									
+<<<<<<< HEAD
 9
+=======
+9									
+>>>>>>> inventory

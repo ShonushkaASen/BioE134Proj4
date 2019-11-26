@@ -1,10 +1,7 @@
 package org.ucb.c5.Inventory;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
-import java.lang.reflect.Array;
-import java.util.*;
+
 import java.util.AbstractMap.*;
-import org.ucb.c5.Inventory.Box;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -13,13 +10,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
-import org.ucb.c5.Inventory.ParseBoxFile;
 
 /**
  * @author Arjun Chandra: initiate(), get(), put()
  * @author Sylvia Illouz: write()
  */
-public class Inventory{
+public class Inventory {
 	private List<Box> boxes;
 	private HashMap<String, Box> nametobox;
 	public void initiate() throws Exception {
@@ -32,7 +28,7 @@ public class Inventory{
 		//Hashmap for easy look up of what box to put something in when storing a new item
 		nametobox = new HashMap();
 		boxes = new ArrayList<>();
-		for(File file: listofboxes) {
+		for (File file: listofboxes) {
 		//Loop iterates through all files and generates appropriate box classes for each using Sylvia's parser
 
 			String filename = file.getName();
@@ -104,16 +100,15 @@ public class Inventory{
 								lab_loc = box.getLabLocation();
 								desired = box;
 							}
-							Double a = curr;
-							Double b = con;
+							System.out.println("desired:" + box.getBoxName());
 							//make a dilution object that higher levels can look for to output the below print statement
-							part2 = new String(a / b + " X solution of " + name + " needs to be made");
+							part2 = "a dilution of " + (curr / con)  + "x needs to be made to achieve desired concentration of " + con + "uM";
 						}
 					}
 
 				}
+				break;
 			}
-			continue;
 		}
 
 		if (currloc == null && lab_loc == null) {
@@ -128,7 +123,7 @@ public class Inventory{
 		return returned;
 
 	}
-	public String put(String name, Double concentration, String boxname){
+	public String put(String name, Double concentration, String boxname) {
 		//return location placed
 		Box currplace = nametobox.get(boxname);
 		//box itself should have a put method that handles the internals of changing that box's data
@@ -156,7 +151,7 @@ public class Inventory{
 			StringBuilder clone = new StringBuilder();
 
 			//header
-			data.append(">name").append("\t").append(box.getBoxName().toUpperCase()).append("\n");
+			data.append(">name").append("\t").append(box.getBoxName()).append("\n");
 			data.append(">description").append("\t").append(box.getBoxDescription()).append("\n");
 			data.append(">location").append("\t").append(box.getLabLocation()).append("\n");
 			data.append(">plate_type").append("\t").append("cardboard box").append("\n");
@@ -234,46 +229,43 @@ public class Inventory{
 				host.append("\n");
 				antibiotic.append("\n");
 				clone.append("\n");
-
 			}
 			if (!labels.toString().matches("[\t\n0-9]+")) {
-				data.append(">>label").append("\t").append(columns).append("\n");
+				data.append("\n").append(">>label").append("\t").append(columns).append("\n");
 				data.append(labels.toString());
 			}
 			if (!names.toString().matches("[\t\n0-9]+")) {
-				data.append(">>name").append("\t").append(columns).append("\n");
+				data.append("\n").append(">>name").append("\t").append(columns).append("\n");
 				data.append(names.toString());
 			}
 			if (!comps.toString().matches("[\t\n0-9]+")) {
-				data.append(">>composition").append("\t").append(columns).append("\n");
+				data.append("\n").append(">>composition").append("\t").append(columns).append("\n");
 				data.append(comps.toString());
 			}
 			if (!concs.toString().matches("[\t\n0-9]+")) {
-				data.append(">>concentration").append("\t").append(columns).append("\n");
+				data.append("\n").append(">>concentration").append("\t").append(columns).append("\n");
 				data.append(concs.toString());
 			}
 			if (!clone.toString().matches("[\t\n0-9]+")) {
-				data.append(">>clone").append("\t").append(columns).append("\n");
+				data.append("\n").append(">>clone").append("\t").append(columns).append("\n");
 				data.append(clone.toString());
 			}
 			if (!host.toString().matches("[\t\n0-9]+")) {
-				data.append(">>host").append("\t").append(columns).append("\n");
+				data.append("\n").append(">>host").append("\t").append(columns).append("\n");
 				data.append(host.toString());
 			}
 			if (!antibiotic.toString().matches("[\t\n0-9]+")) {
-				data.append(">>antibiotic").append("\t").append(columns).append("\n");
+				data.append("\n").append(">>antibiotic").append("\t").append(columns).append("\n");
 				data.append(antibiotic.toString());
 			}
 			if (!note.toString().matches("[\t\n0-9]+")) {
-				data.append(">>note").append("\t").append(columns).append("\n");
+				data.append("\n").append(">>note").append("\t").append(columns).append("\n");
 				data.append(note.toString());
 			}
-			System.out.println(data.toString());
-			File file = new File("/Users/sylviaillouz/Desktop/bioe134/constructionfile-and-protocol-demo-sylviaillouz/Proj4/BioE134Proj4/Proj4Files/inventory/boxA.txt");
+			File file = new File("/Users/sylviaillouz/Desktop/bioe134/constructionfile-and-protocol-demo-sylviaillouz/Proj4/BioE134Proj4/src/org/ucb/c5/Inventory/Proj4Files/OutputInventory/" + box.getBoxName() + "updated.txt");
 			FileWriter rewrite = new FileWriter(file, false);
 			rewrite.write(data.toString());
 			rewrite.close();
-			break;
 		}
 
 	}
@@ -296,12 +288,12 @@ public class Inventory{
 	public static void main(String[] args) throws Exception {
 		Inventory in = new Inventory();
 		in.initiate();
-		String oligo = "cadA pcrs";
-		Double concen = 1.0;
+		String oligo = "yyBla-F";
+		Double concen = 5.0;
 		SimpleEntry<String, String> loc = in.get(oligo, concen);
+		System.out.println("returned: " + loc);
 		String loc23 = in.put("Arjun", 10.0, "boxO");
-		System.out.println(loc.getKey());
-		System.out.println(loc.getValue());
+		System.out.println(loc23);
 		in.write();
 	}
 }

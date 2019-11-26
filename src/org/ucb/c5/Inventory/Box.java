@@ -54,6 +54,13 @@ public class Box{
         HashMap concentrationAndLocation = new HashMap<Double, Location>();
         concentrationAndLocation.put(conc, filled);
         nameToConcToLoc.put(name, concentrationAndLocation);
+        //update boxGrid of box attributes to values, used later to write output file
+        int row = Integer.valueOf(filled.getRow());
+        int col = Integer.valueOf(filled.getCol());
+        HashMap<String, String> attributeMap = new HashMap();
+        attributeMap.put("name", name);
+        attributeMap.put("concentration", conc + " uM");
+        boxGrid[row][col] = attributeMap;
     }
     public HashMap<Double, Location> get(String name){
         return nameToConcToLoc.get(name);

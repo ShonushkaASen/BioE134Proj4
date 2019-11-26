@@ -178,5 +178,6 @@ public class ParseBoxFile {
         ParseBoxFile parser = new ParseBoxFile();
         parser.initiate();
         Box box = parser.run("boxB.txt");
+        System.out.println(box.containsName("pTarget-cscR1-A"));
     }
 }
