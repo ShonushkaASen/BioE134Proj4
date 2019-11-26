@@ -231,35 +231,35 @@ public class Inventory {
 				clone.append("\n");
 			}
 			if (!labels.toString().matches("[\t\n0-9]+")) {
-				data.append(">>label").append("\t").append(columns).append("\n");
+				data.append("\n").append(">>label").append("\t").append(columns).append("\n");
 				data.append(labels.toString());
 			}
 			if (!names.toString().matches("[\t\n0-9]+")) {
-				data.append(">>name").append("\t").append(columns).append("\n");
+				data.append("\n").append(">>name").append("\t").append(columns).append("\n");
 				data.append(names.toString());
 			}
 			if (!comps.toString().matches("[\t\n0-9]+")) {
-				data.append(">>composition").append("\t").append(columns).append("\n");
+				data.append("\n").append(">>composition").append("\t").append(columns).append("\n");
 				data.append(comps.toString());
 			}
 			if (!concs.toString().matches("[\t\n0-9]+")) {
-				data.append(">>concentration").append("\t").append(columns).append("\n");
+				data.append("\n").append(">>concentration").append("\t").append(columns).append("\n");
 				data.append(concs.toString());
 			}
 			if (!clone.toString().matches("[\t\n0-9]+")) {
-				data.append(">>clone").append("\t").append(columns).append("\n");
+				data.append("\n").append(">>clone").append("\t").append(columns).append("\n");
 				data.append(clone.toString());
 			}
 			if (!host.toString().matches("[\t\n0-9]+")) {
-				data.append(">>host").append("\t").append(columns).append("\n");
+				data.append("\n").append(">>host").append("\t").append(columns).append("\n");
 				data.append(host.toString());
 			}
 			if (!antibiotic.toString().matches("[\t\n0-9]+")) {
-				data.append(">>antibiotic").append("\t").append(columns).append("\n");
+				data.append("\n").append(">>antibiotic").append("\t").append(columns).append("\n");
 				data.append(antibiotic.toString());
 			}
 			if (!note.toString().matches("[\t\n0-9]+")) {
-				data.append(">>note").append("\t").append(columns).append("\n");
+				data.append("\n").append(">>note").append("\t").append(columns).append("\n");
 				data.append(note.toString());
 			}
 			File file = new File("/Users/sylviaillouz/Desktop/bioe134/constructionfile-and-protocol-demo-sylviaillouz/Proj4/BioE134Proj4/src/org/ucb/c5/Inventory/Proj4Files/OutputInventory/" + box.getBoxName() + "updated.txt");
@@ -292,8 +292,8 @@ public class Inventory {
 		Double concen = 5.0;
 		SimpleEntry<String, String> loc = in.get(oligo, concen);
 		System.out.println("returned: " + loc);
-		//String loc23 = in.put("Arjun", 10.0, "boxO");
-		//System.out.println(loc23);
+		String loc23 = in.put("Arjun", 10.0, "boxO");
+		System.out.println(loc23);
 		in.write();
 	}
 }
