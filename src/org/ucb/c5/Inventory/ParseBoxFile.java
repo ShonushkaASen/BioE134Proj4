@@ -102,8 +102,10 @@ public class ParseBoxFile {
             for (int row = 0; row < boxGrid.length; row++) {
                 for (int col = 0; col < boxGrid[row].length; col++) {
                     if ((boxGrid[row][col]) == null) {
+                        //if there is a null map inside the HashMap[][], we know there is no tube associated with that row and column
                         emptySpots.add(new Location(row, col));
                     } else {
+                        //for the exisiting tubes, capture their row and column and populate main map
                         populateNameMap(boxGrid[row][col], row, col);
                     }
 
@@ -126,6 +128,7 @@ public class ParseBoxFile {
         }
         if (curr_map.containsKey("concentration")) {
             String[] conc = curr_map.get("concentration").split(" ");
+            // in the case that the concentration is given as a word, we arbitrarily set concentration to 10
             if (!(conc[0].matches("[0-9]"))) {
                 concentration = 10.0;
             }
@@ -155,6 +158,7 @@ public class ParseBoxFile {
             String line = lines[i];
 
             String[] tabs = line.split("\t");
+            //both name and composition mean the same in terms of tube content, label is different
             if ((tabs[0].equals(">name")) || tabs[0].equals("<composition")) {
                 box_name = tabs[1];
                 if (box_name.contains("box")) {
