@@ -102,11 +102,12 @@ public class Inventory {
 							}
 							System.out.println("desired:" + box.getBoxName());
 							//make a dilution object that higher levels can look for to output the below print statement
-							part2 = "a dilution of " + name + " needs to be made to achieve desired concentration of " + con + "uM";
+							part2 = "a dilution of " + (curr / con)  + "x needs to be made to achieve desired concentration of " + con + "uM";
 						}
 					}
 
 				}
+				break;
 			}
 			continue;
 		}
