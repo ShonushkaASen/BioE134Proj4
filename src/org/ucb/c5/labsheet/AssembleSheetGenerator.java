@@ -21,7 +21,7 @@ public class AssembleSheetGenerator {
 
     }
 
-    public static List<String> run(Step step,  Inventory inventory, String thread, List<String> currStrings, String header) throws Exception {
+    public static List<String> run(Step step,  Inventory inventory, String thread, List<String> currStrings) throws Exception {
         if (currStrings == null) {
             current_sample_num = 0;
             source = new StringBuilder();
@@ -38,7 +38,7 @@ public class AssembleSheetGenerator {
             destination = new StringBuilder(currStrings.get(2));
         }
         Assembly assembly = (Assembly) step;
-        
+        String header = "";
         current_sample_num++;
         String dna1 = thread + current_sample_num + "p";
         current_sample_num++;
