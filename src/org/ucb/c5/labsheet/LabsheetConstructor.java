@@ -16,6 +16,7 @@ import org.ucb.c5.constructionfile.model.Thread;
 public class LabsheetConstructor {
 
     private FileWriter fw;
+    private String filepath;
     private Inventory inventory;
     private Thread thread;
 
@@ -39,8 +40,9 @@ public class LabsheetConstructor {
     }
 
     //creating multiple labSheets for the number of construction files in cfs
-    public void run(List<ConstructionFile> cfs) throws Exception {
+    public void run(List<ConstructionFile> cfs, String filepath) throws Exception {
         //doing the same string creation operation for the number of labsheets (i.e. outputting one file for ALL operations)
+        this.filepath = filepath;
         String thread_val = thread.get();
         //String thread_val = "B";
         ArrayList<String> labsheet = new ArrayList<>();
@@ -95,7 +97,7 @@ public class LabsheetConstructor {
     }
 
     private void writeSheetsToFile() throws Exception {
-        File file = new File("C:\\Users\\sghan\\OneDrive\\Desktop\\Homework\\bioe134\\repo\\BioE134Proj4\\src\\org\\ucb\\c5\\labsheet\\labsheetOutput\\construction_new.doc");
+        File file = new File(filepath);
         fw = new FileWriter(file);
         for (List<String> sheet : sheets) {
             if (sheet == null) {
@@ -126,7 +128,8 @@ public class LabsheetConstructor {
         ConstructionFile cf = parser.run(data);
         List<ConstructionFile> list = new ArrayList<>();
         list.add(cf);
-        constructor.run(list);
+        String path = "C:\\Users\\katlyn\\berk\\bioe134\\proj4\\src\\org\\ucb\\c5\\labsheet\\labsheetOutput\\construction_new.doc";
+        constructor.run(list, path);
     }
 
 }
