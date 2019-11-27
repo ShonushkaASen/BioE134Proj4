@@ -36,7 +36,6 @@ public class LabsheetConstructor {
         inventory.initiate();
         thread = new Thread();
         thread.initiate();
-
     }
 
     //creating multiple labSheets for the number of construction files in cfs
