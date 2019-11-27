@@ -69,7 +69,7 @@ public class LabsheetConstructor {
                         LigationString = LigationSheetGenerator.run(step, inventory, thread_val, LigationString, plasmidName);
                         break;
                     case assemble:
-                         AssembleString = AssembleSheetGenerator.run(step, inventory, thread_val, AssembleString);
+                         AssembleString = AssembleSheetGenerator.run(step, inventory, thread_val, AssembleString, plasmidName);
                          sheets.add(AssembleString);
                         break;
                     case cleanup:

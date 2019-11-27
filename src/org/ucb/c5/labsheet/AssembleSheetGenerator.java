@@ -21,7 +21,8 @@ public class AssembleSheetGenerator {
 
     }
 
-    public static List<String> run(Step step,  Inventory inventory, String thread, List<String> currStrings) throws Exception {
+    public static List<String> run(Step step,  Inventory inventory, String thread, List<String> currStrings, String header) throws Exception {
+        //if currStrings is null, this means this is the first time a Digestion step has been encountered
         if (currStrings == null) {
             current_sample_num = 0;
             source = new StringBuilder();
@@ -33,12 +34,13 @@ public class AssembleSheetGenerator {
             fragments = new StringBuilder();
           
         } else {
+            //since we know the order in which we are returning the strings, we can reassign the stringbuilders accordingly
             source = new StringBuilder(currStrings.get(0));
             samples = new StringBuilder(currStrings.get(1));
             destination = new StringBuilder(currStrings.get(2));
         }
         Assembly assembly = (Assembly) step;
-        String header = "";
+        //sample labels should correspond to thread + sample#, i.e. A1p and A2p
         current_sample_num++;
         String dna1 = thread + current_sample_num + "p";
         current_sample_num++;
@@ -48,19 +50,16 @@ public class AssembleSheetGenerator {
 
         fragments.append(dna1).append(",").append(dna2);
         String fragString = fragments.toString();
-        
+        //to find the location of the reactant, we ask inventory where the header+fragment is, i.e. pTarg1/pcrA amd pTarg1/pcrB
         String substrate1 = header + "/" + assembly.getFragments().get(0);
         String substrate2 = header + "/" + assembly.getFragments().get(1);
         String location1 = inventory.get(substrate1, -1.0).getKey();
         String location2 = inventory.get(substrate2, -1.0).getKey();
         
-        
+        //appending information to samples in appropriate order to correspond with heading
         source.append(dna1 + "\t").append(location1).append("\n").append(dna2 + "\t").append(location2 + "\n");
         samples.append(label + "\t").append(fragString + "\t").append(product + "\n");
-                
-        
-        System.out.println("Assembly:");
-        System.out.println(samples.toString());
+        //converting Stringbuilders to String and passing them into an array to be returned
         List<String> newCurrStrings = new ArrayList<String>(Arrays.asList(source.toString(), samples.toString(), destination.toString()));
         return newCurrStrings;
     }
