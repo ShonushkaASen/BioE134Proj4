@@ -18,7 +18,8 @@ public class LabsheetConstructor {
     private FileWriter fw;
     private Inventory inventory;
     private Thread thread;
-
+    
+    //we will recursively add to these lists of strings as we encounter each corresponding operation
     private List<String> LigationString;
     private List<String> MiniprepString;
     private List<String> PCRCleanupString;
@@ -39,11 +40,9 @@ public class LabsheetConstructor {
 
     }
 
-    //creating multiple labSheets for the number of construction files in cfs
     public void run(List<ConstructionFile> cfs) throws Exception {
-        //doing the same string creation operation for the number of labsheets (i.e. outputting one file for ALL operations)
+        //thread.get() will return the next available thread value
         String thread_val = thread.get();
-        //String thread_val = "B";
         ArrayList<String> labsheet = new ArrayList<>();
         for (ConstructionFile cf : cfs) {
             String plasmidName = cf.getPlasmid();
@@ -57,6 +56,9 @@ public class LabsheetConstructor {
                         break;
                     case pcr:
                         //PCRSheetGenerator takes in a  PCR step
+                        //we pass in PCRString as an argument, then reassign in to the output of PCRSheetGenerator
+                        //PCRSheetGenerator should preserve the previous state of PCRString but append to the Strings 
+                        //with additional information
                         PCRString = PCRSheetGenerator.run(step, inventory, thread_val, PCRString, plasmidName); //Map<String,String>;
                         break;
                     case digest:
@@ -73,6 +75,8 @@ public class LabsheetConstructor {
                         PCRCleanupString = PCRCleanupSheetGenerator.run(step, inventory, thread_val, PCRCleanupString, plasmidName);
                         break;
                     case transform:
+                        //in the case of a transformation, we know that this step must always be followed by a Plate, Pick, and Miniprep
+                        //step in that order
                         TransformString = TransformSheetGenerator.run(step, inventory, thread_val, TransformString, plasmidName);
                         PlateString = PlateSheetGenerator.run(step, inventory, thread_val, PlateString, plasmidName);
                         PickString = PickSheetGenerator.run(step, inventory, thread_val, PickString, plasmidName);
@@ -83,6 +87,8 @@ public class LabsheetConstructor {
                         System.out.println("operation not found to make sheet");
                 }
             }
+            //after all steps from all construction files have been processed, we add the final step Strings to "sheets"
+            //which will then be written to a .doc file by writeSheetsToFile();
             sheets.add(PCRString);
             sheets.add(PCRCleanupString);
             sheets.add(DigestionString);
@@ -96,7 +102,7 @@ public class LabsheetConstructor {
     }
 
     private void writeSheetsToFile() throws Exception {
-        File file = new File("C:\\Users\\sghan\\OneDrive\\Desktop\\Homework\\bioe134\\repo\\BioE134Proj4\\src\\org\\ucb\\c5\\labsheet\\labsheetOutput\\construction_new.doc");
+        File file = new File("construction_new.doc");
         fw = new FileWriter(file);
         for (List<String> sheet : sheets) {
             if (sheet == null) {
