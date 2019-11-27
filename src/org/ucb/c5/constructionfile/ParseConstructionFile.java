@@ -96,6 +96,11 @@ public class ParseConstructionFile {
             case acquire:
                 return createAcquire(
                         spaces[1].split(","));
+            case assemble:
+                return createAssemble(
+                        spaces[1].split(","),
+                        spaces[2].split(",")[0],
+                        spaces[3]);
             default:
                 throw new RuntimeException("Not implemented " + op);
         }
@@ -143,6 +148,15 @@ public class ParseConstructionFile {
 
     private Step createAcquire(String[] dnas) {
         return new Acquisition(dnas[0]);
+    }
+
+    private Step createAssemble(String[] fragments, String enzyme, String product) {
+        List<String> frags = new ArrayList<>();
+        for (String frag : fragments) {
+            frags.add(frag);
+        }
+        Enzyme enz = Enzyme.valueOf(enzyme);
+        return new Assembly(frags, enz, product);
     }
 
     public static void main(String[] args) throws Exception {
