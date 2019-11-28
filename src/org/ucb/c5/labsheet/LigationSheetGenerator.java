@@ -7,6 +7,9 @@ import java.util.List;
 import org.ucb.c5.Inventory.Inventory;
 import org.ucb.c5.constructionfile.model.Ligation;
 import org.ucb.c5.constructionfile.model.Step;
+/**
+ * @author Heloise Carion
+ **/
 
 public class LigationSheetGenerator {
     private static int current_sample_num; //for labeling purposes

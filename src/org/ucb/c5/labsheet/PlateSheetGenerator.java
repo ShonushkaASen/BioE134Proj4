@@ -8,6 +8,10 @@ import org.ucb.c5.Inventory.Inventory;
 import org.ucb.c5.constructionfile.model.Step;
 import org.ucb.c5.constructionfile.model.Transformation;
 
+/**
+ * @author Heloise Carion
+ **/
+
 public class PlateSheetGenerator {
     private static int current_sample_num; // for labeling purposes
     private static StringBuilder samples;
