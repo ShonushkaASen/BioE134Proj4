@@ -8,6 +8,10 @@ import org.ucb.c5.constructionfile.model.Transformation;
 import java.util.List;
 import org.ucb.c5.Inventory.Inventory;
 
+/**
+ * @author Shonushka Sen
+ */
+
 public class PickSheetGenerator {
     private static int current_sample_num; //for labeling purposes
     private static StringBuilder samples;

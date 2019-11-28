@@ -13,6 +13,10 @@ import org.ucb.c5.constructionfile.ParseConstructionFile;
 import org.ucb.c5.constructionfile.model.Acquisition;
 import org.ucb.c5.constructionfile.model.Thread;
 
+/**
+ * @author Heloise Carion, Katlyn Ho, Sina Ghandian
+ */
+
 public class LabsheetConstructor {
 
     private FileWriter fw;
@@ -134,7 +138,7 @@ public class LabsheetConstructor {
         ConstructionFile cf = parser.run(data);
         List<ConstructionFile> list = new ArrayList<>();
         list.add(cf);
-        String path = "C:\\Users\\katlyn\\berk\\bioe134\\proj4\\src\\org\\ucb\\c5\\labsheet\\labsheetOutput\\construction_new.doc";
+        String path = "construction_new.doc";
         constructor.run(list, path);
     }
 
