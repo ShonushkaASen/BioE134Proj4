@@ -39,7 +39,7 @@ public class MiniprepSheetGenerator {
         String label1 = transform.getProduct() + "-A";
         String label2 = transform.getProduct() + "-B";
         //inventory.put() returns the location in inventory in which the sample has been placed
-        String location1 = inventory.put(label1, -1.0, "box" + thread);
+        String location1 = inventory.put(label1, -1.0, "box" + thread).replace("null/","");
         String location2 = inventory.put(label2, -1.0, "box" + thread);
         //appending information to samples in appropriate order to correspond with heading
         samples.append(culture1).append("\t").append(label1).append("\t").append(location1).append("\n");

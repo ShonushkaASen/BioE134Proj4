@@ -8,7 +8,7 @@ import java.util.*;
 
 /**
  * @author Heloise Carion, Katlyn Ho, Sina Ghandian
- */
+**/
 
 public class PCRSheetGenerator {
     private static int current_sample_num; // for labeling purposes
