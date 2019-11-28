@@ -6,7 +6,7 @@ import org.ucb.c5.constructionfile.model.*;
 
 /**
  *
- * @author J. Christopher Anderson
+ * @author J. Christopher Anderson, Katlyn Ho
  */
 public class ParseConstructionFile {
 

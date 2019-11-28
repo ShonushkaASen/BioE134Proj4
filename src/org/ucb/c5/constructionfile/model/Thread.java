@@ -4,6 +4,10 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
+/**
+ * @author Katlyn Ho, Sina Ghandian, Heloise Carlton
+ */
+
 public class Thread {
     private Queue<String> possible_Threads;
     //creating all possible threads
