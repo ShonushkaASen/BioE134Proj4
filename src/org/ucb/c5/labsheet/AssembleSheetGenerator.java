@@ -10,6 +10,10 @@ import org.ucb.c5.constructionfile.model.Step;
 import java.util.List;
 import org.ucb.c5.Inventory.Inventory;
 
+/**
+ * @author Katlyn Ho
+ */
+
 public class AssembleSheetGenerator {
     private static int current_sample_num;
     private static StringBuilder source;
@@ -53,14 +57,14 @@ public class AssembleSheetGenerator {
         //to find the location of the reactant, we ask inventory where the header+fragment is, i.e. pTarg1/pcrA amd pTarg1/pcrB
         String substrate1 = header + "/" + assembly.getFragments().get(0);
         String substrate2 = header + "/" + assembly.getFragments().get(1);
-        String location1 = inventory.get(substrate1, -1.0).getKey();
-        String location2 = inventory.get(substrate2, -1.0).getKey();
+        String location1 = inventory.get(substrate1, -1.0).getKey().replace("null/","");
+        String location2 = inventory.get(substrate2, -1.0).getKey().replace("null/","");
         
         //appending information to samples in appropriate order to correspond with heading
         source.append(dna1 + "\t").append(location1).append("\n").append(dna2 + "\t").append(location2 + "\n");
         samples.append(label + "\t").append(fragString + "\t").append(product + "\n");
         //converting Stringbuilders to String and passing them into an array to be returned
-        List<String> newCurrStrings = new ArrayList<String>(Arrays.asList(source.toString(), samples.toString(), destination.toString()));
+        List<String> newCurrStrings = new ArrayList<>(Arrays.asList(source.toString(), samples.toString(), destination.toString()));
         return newCurrStrings;
     }
 }

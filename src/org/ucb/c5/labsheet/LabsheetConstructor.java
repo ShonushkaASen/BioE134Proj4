@@ -13,6 +13,10 @@ import org.ucb.c5.constructionfile.ParseConstructionFile;
 import org.ucb.c5.constructionfile.model.Acquisition;
 import org.ucb.c5.constructionfile.model.Thread;
 
+/**
+ * @author Katlyn Ho
+ */
+
 public class LabsheetConstructor {
 
     private FileWriter fw;
@@ -40,11 +44,12 @@ public class LabsheetConstructor {
         thread.initiate();
     }
 
+
+    // construction files need to have all of the steps listed or else they won't show up on the labsheet
     public void run(List<ConstructionFile> cfs, String filepath) throws Exception {
         this.filepath = filepath;
         //thread.get() will return the next available thread value
         String thread_val = thread.get();
-        ArrayList<String> labsheet = new ArrayList<>();
         for (ConstructionFile cf : cfs) {
             String plasmidName = cf.getPlasmid();
             for (Step step : cf.getSteps()) {
@@ -84,7 +89,6 @@ public class LabsheetConstructor {
                         MiniprepString = MiniprepSheetGenerator.run(step, inventory, thread_val, MiniprepString, plasmidName);
                         break;
                     default:
-                        //throw new Exception(op.toString() + "Operation not found to make sheet");
                         System.out.println("operation not found to make sheet");
                 }
             }
@@ -122,20 +126,20 @@ public class LabsheetConstructor {
         constructor.initiate();
         ParseConstructionFile parser = new ParseConstructionFile();
         
-        String data = ">Construction of pTarget-cscB1\n" +
-            "acquire oligo cscB1,pTargRev\n" +
-            "acquire plasmid pTargetF\n" +
-            "pcr cscB1,pTargRev on pTargetF	(3927 bp, ipcr)\n" +
-            "cleanup ipcr	(pcrpdt)\n" +
-            "digest pcrpdt with SpeI,DpnI	(spedig)\n" +
-            "cleanup spedig	(dig)\n" +
-            "ligate dig	(lig)\n" +
-            "transform lig	(Mach1, Spec)";
+        String data = ">Construction of pTargetF1\n" +
+                "pcr yyBla-F,yyBla-R on p20N5\t(1183 bp, fragA)\n" +
+                "cleanup\tfragA\t(fragA)\n" +
+                "pcr yyEI-F,yyEI-R on pTargetF\t(1174 bp, fragB)\n" +
+                "cleanup\tfragB\t(fragB)\n" +
+                "assemble fragA,fragB\t(BsaI, pTarg1) \n" +
+                "transform pTarg1\t(Mach1, Amp)";
         ConstructionFile cf = parser.run(data);
         List<ConstructionFile> list = new ArrayList<>();
         list.add(cf);
         String path = "C:\\Users\\katlyn\\berk\\bioe134\\proj4\\src\\org\\ucb\\c5\\labsheet\\labsheetOutput\\construction_new.doc";
         constructor.run(list, path);
+//        String s = "boxA A";
+//        System.out.print(s.replace("null/", ""));
     }
 
 }

@@ -41,7 +41,7 @@ public class LigationSheetGenerator {
         current_sample_num++;
         
         //sample label should correspond to thread + sample#, i.e. A1
-        String label = thread + Integer.toString(current_sample_num);
+        String label = thread + current_sample_num;
         String digest = label + "d";
         Ligation ligation = (Ligation) step;
         String product = header + "/lig";

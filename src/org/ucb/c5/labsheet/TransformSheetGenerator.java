@@ -8,6 +8,10 @@ import org.ucb.c5.constructionfile.model.Transformation;
 
 import java.util.List;
 
+/**
+ * @author Katlyn Ho
+ */
+
 public class TransformSheetGenerator {
 //always followed by plate, pick, miniprep (i.e. those generators are called after this class)
     private static int current_sample_num; //for labeling purposes

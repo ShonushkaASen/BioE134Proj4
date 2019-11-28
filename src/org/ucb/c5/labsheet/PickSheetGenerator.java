@@ -35,8 +35,8 @@ public class PickSheetGenerator {
         String strain = transform.getStrain();
         String antibiotic = transform.getAntibiotic().toString();
         //sample label should correspond to thread + sample# + -A or -B, i.e. A1A and A1B
-        String label1 = thread + Integer.toString(current_sample_num) + "A";
-        String label2 = thread + Integer.toString(current_sample_num) + "B";
+        String label1 = thread + current_sample_num + "A";
+        String label2 = thread + current_sample_num + "B";
 
 
         //appending information to samples in appropriate order to correspond with heading
@@ -45,7 +45,7 @@ public class PickSheetGenerator {
                 .append(", ").append(label2).append("\n");
         
         //converting Stringbuilders to String and passing them into an array to be returned
-        List<String> newCurrStrings = new ArrayList<String>(Arrays.asList(samples.toString()));
+        List<String> newCurrStrings = new ArrayList<>(Arrays.asList(samples.toString()));
         return newCurrStrings;
     }
 }
